@@ -7,7 +7,7 @@ mod arch;
 use crate::arch::x86_64::gdt::gdt_install;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
-use crate::print::print_color;
+use crate::print::print;
 use core::panic::PanicInfo;
 
 mod lib;
@@ -36,11 +36,8 @@ fn panic(_info: &PanicInfo) -> ! {
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     let mut buffer = Writer::default();
-    print_color(
-        &mut buffer,
-        "Welcome on NoName Kernel",
-        ColorCode::new(Color::LightCyan, Color::Black),
-    );
+    buffer.color_code = ColorCode::new(Color::LightCyan, Color::Black);
+    write!(buffer, "Welcome on NoName Kernel {}-{}", env!("CARGO_PKG_VERSION"), env!("GIT_HASH")).unwrap();
     buffer.new_line();
     unsafe { gdt_install(&mut buffer) };
     loop {}

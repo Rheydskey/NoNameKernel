@@ -1,0 +1,64 @@
+use crate::lib::vga_color::{Color, ColorCode};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[repr(C)]
+pub struct ScreenChar {
+    pub ascii_character: u8,
+    pub color_code: ColorCode,
+}
+
+const BUFFER_HEIGHT: usize = 2;
+const BUFFER_WIDTH: usize = 80;
+
+#[repr(transparent)]
+pub struct Buffer {
+    pub chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
+}
+
+pub struct Writer {
+    pub column_position: usize,
+    pub color_code: ColorCode,
+    pub buffer: &'static mut Buffer,
+}
+
+impl Writer {
+    pub fn default() -> Self {
+        Writer {
+            column_position: 0,
+            color_code: ColorCode::new(Color::White, Color::Black),
+            buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+        }
+    }
+
+    pub fn write_byte(&mut self, byte: u8) {
+        match byte {
+            b'\n' => self.new_line(),
+            byte => {
+                if self.column_position >= BUFFER_WIDTH {
+                    self.new_line();
+                }
+
+                let row = BUFFER_HEIGHT - 1;
+                let col = self.column_position;
+
+                let color_code = self.color_code;
+                self.buffer.chars[row][col] = ScreenChar {
+                    ascii_character: byte,
+                    color_code,
+                };
+                self.column_position += 1;
+            }
+        }
+    }
+    pub fn write_string(&mut self, s: &str) {
+        for byte in s.bytes() {
+            match byte {
+                0x20..=0x7e | b'\n' => self.write_byte(byte),
+                _ => self.write_byte(0xfe),
+            }
+        }
+    }
+    pub fn new_line(&mut self) {
+        /* TODO */
+    }
+}

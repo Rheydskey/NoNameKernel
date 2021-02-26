@@ -65,7 +65,7 @@ impl Writer {
         self.column_position = 0;
     }
 }
-use core::fmt::{Write, Result as WriteResult, Arguments};
+use core::fmt::{Write, Result as WriteResult};
 
 impl Write for Writer {
     fn write_str(&mut self, s: &str) -> WriteResult {

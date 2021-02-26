@@ -6,11 +6,9 @@
 mod arch;
 use crate::arch::x86_64::gdt::gdt_install;
 use crate::lib::vga::Writer;
-use crate::print::{print, print_color, print_bytes};
+use crate::print::{print_color};
 use core::panic::PanicInfo;
 use crate::lib::vga_color::{ColorCode, Color};
-use core::convert::TryFrom;
-use core::intrinsics::transmute;
 
 mod lib;
 mod print;

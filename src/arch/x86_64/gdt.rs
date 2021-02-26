@@ -3,8 +3,11 @@ Rewrite of https://raw.githubusercontent.com/hach-que/Kernel/master/gdt.c
 By Rheydskey
 */
 
-use crate::lib::{vga::Writer, vga_color::{Color, ColorCode}};
-use crate::print::print_color;
+use crate::lib::{
+    vga::Writer,
+    vga_color::{Color, ColorCode},
+};
+use crate::utils::print::print_color;
 use core::mem::size_of;
 
 #[derive(Copy, Clone)]
@@ -49,11 +52,16 @@ pub unsafe fn gdt_set_gate(num: usize, base: u32, limit: u32, access: u16, gran:
 
 pub unsafe fn gdt_install(write: &mut Writer) {
     GP.limit = (size_of::<GdtEntry>() * 6 - 1) as u16;
+    //GP.base = &*GDT as u64;
     gdt_set_gate(0, 0, 0, 0, 0);
     gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
     gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
     /* Install the user mode segments into the GDT */
     gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF);
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
-    print_color(write, "GDT Loaded Succesfully", ColorCode::new(Color::Green, Color::Black));
+    print_color(
+        write,
+        "GDT Loaded Succesfully",
+        ColorCode::new(Color::Green, Color::Black),
+    );
 }

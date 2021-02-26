@@ -8,9 +8,9 @@ use crate::arch::x86_64::gdt::gdt_install;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
 use core::panic::PanicInfo;
-
+mod utils;
 mod lib;
-mod print;
+
 use core::fmt::Write;
 
 #[panic_handler]

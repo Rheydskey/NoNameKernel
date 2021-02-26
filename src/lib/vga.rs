@@ -16,6 +16,7 @@ pub struct Buffer {
 }
 
 pub struct Writer {
+    pub row_position: usize,
     pub column_position: usize,
     pub color_code: ColorCode,
     pub buffer: &'static mut Buffer,
@@ -24,6 +25,7 @@ pub struct Writer {
 impl Writer {
     pub fn default() -> Self {
         Writer {
+            row_position: 0,
             column_position: 0,
             color_code: ColorCode::new(Color::White, Color::Black),
             buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
@@ -38,7 +40,7 @@ impl Writer {
                     self.new_line();
                 }
 
-                let row = BUFFER_HEIGHT - 1;
+                let row = self.row_position;
                 let col = self.column_position;
 
                 let color_code = self.color_code;
@@ -59,6 +61,9 @@ impl Writer {
         }
     }
     pub fn new_line(&mut self) {
-        /* TODO */
+        self.row_position += 1;
+        self.column_position = 0;
+    }
+}
     }
 }

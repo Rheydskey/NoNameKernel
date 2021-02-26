@@ -7,7 +7,7 @@ pub struct ScreenChar {
     pub color_code: ColorCode,
 }
 
-const BUFFER_HEIGHT: usize = 2;
+const BUFFER_HEIGHT: usize = 20;
 const BUFFER_WIDTH: usize = 80;
 
 #[repr(transparent)]

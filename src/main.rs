@@ -36,7 +36,13 @@ fn panic(_info: &PanicInfo) -> ! {
 pub extern "C" fn _start() -> ! {
     let mut buffer = Writer::default();
     buffer.color_code = ColorCode::new(Color::LightCyan, Color::Black);
-    write!(buffer, "Welcome on NoName Kernel {}-{}", env!("CARGO_PKG_VERSION"), env!("GIT_HASH")).unwrap();
+    write!(
+        buffer,
+        "Welcome on NoName Kernel {}-{}",
+        env!("CARGO_PKG_VERSION"),
+        env!("GIT_HASH")
+    )
+    .unwrap();
     buffer.new_line();
     unsafe { gdt_install(&mut buffer) };
     loop {}

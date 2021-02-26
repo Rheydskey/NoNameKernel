@@ -1,5 +1,5 @@
 use crate::lib::vga::Writer;
-use crate::lib::vga_color::{ColorCode, Color};
+use crate::lib::vga_color::{Color, ColorCode};
 
 pub fn print(buf: &mut Writer, msg: &str) {
     buf.color_code = ColorCode::new(Color::White, Color::Black);

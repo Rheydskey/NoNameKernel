@@ -57,4 +57,3 @@ pub unsafe fn gdt_install(write: &mut Writer) {
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
     print(write, "GDT LOADED");
 }
-

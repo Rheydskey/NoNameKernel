@@ -7,7 +7,6 @@ mod arch;
 use crate::arch::x86_64::gdt::gdt_install;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
-use crate::print::print;
 use core::panic::PanicInfo;
 
 mod lib;

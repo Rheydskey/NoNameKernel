@@ -22,10 +22,10 @@ fn panic(_info: &PanicInfo) -> ! {
     let panic_file = location.file();
     let panic_column = location.column();
     let panic_line = location.line();
-    buffer.color_code = ColorCode::new(Color::Red, Color::Black);
+    buffer.color_code = ColorCode::new(Color::LightGray, Color::Red);
     write!(
         buffer,
-        "PANIC at {}:{}:{} => {}",
+        "-------- PANIC at {}:{}:{} => {} --------",
         panic_file, panic_line, panic_column, panic_message
     )
     .unwrap();

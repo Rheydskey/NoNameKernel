@@ -69,7 +69,7 @@ pub unsafe fn gdt_install(write: &mut Writer) {
     gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF);
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
 
-    set_gdt(gdtptr);
+    _x86_64_lgdt(&gdtptr as *const GdtPtr);
 
     print_color(
         write,
@@ -78,6 +78,7 @@ pub unsafe fn gdt_install(write: &mut Writer) {
     );
 }
 
+#[link(name="x86_64_gdt")]
 extern "C" {
-    pub fn set_gdt(gdtp: GdtPtr);
+    pub fn _x86_64_lgdt(gdtp: *const GdtPtr);
 }

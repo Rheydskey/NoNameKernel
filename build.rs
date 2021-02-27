@@ -10,7 +10,7 @@ fn main() {
     println!("cargo:rustc-env=GIT_HASH={}", git_hash);
     cc::Build::new()
         .no_default_flags(true)
-        .file("src/arch/x86_64/gdt.S")
+        .file("src/arch/x86_64/gdt/gdt.S")
         .pic(true)
         .static_flag(true)
         .shared_flag(false)

@@ -73,7 +73,7 @@ pub unsafe fn gdt_install(write: &mut Writer) {
 
     print_color(
         write,
-        "[ OK ] GDT Loaded Succesfully",
+        "[ OK ] GDT Succesfully Loaded",
         ColorCode::new(Color::Green, Color::Black),
     );
 }

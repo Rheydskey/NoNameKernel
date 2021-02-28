@@ -6,3 +6,5 @@ The NoName is a kernel for the x86_64 architecture written in RUST
 - [x] GDT
 - [ ] IDT
 - [ ] Keyboard
+- [ ] Paging
+- [ ] FS

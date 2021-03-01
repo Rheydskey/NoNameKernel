@@ -64,10 +64,11 @@ impl Writer {
         self.row_position += 1;
         self.column_position = 0;
     }
-    pub fn _clear_row(&mut self, row: usize ) {
+    pub fn _clear_row(&mut self, row: usize) {
         let empty: ScreenChar = ScreenChar {
             ascii_character: b' ',
-            color_code: ColorCode::new(Color::Black, Color::Black)};
+            color_code: ColorCode::new(Color::Black, Color::Black),
+        };
         for col in 0..BUFFER_WIDTH {
             self.buffer.chars[row][col] = empty;
         }

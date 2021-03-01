@@ -3,17 +3,16 @@
 #![feature(asm)]
 #![feature(panic_info_message)]
 
-
 use crate::arch::x86_64::gdt::init_gdt;
 use crate::arch::x86_64::idt::init_idt;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
-use core::fmt::Write;
 use crate::utils::status::Init;
+use core::fmt::Write;
 
 mod arch;
-mod utils;
 mod lib;
+mod utils;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
@@ -34,7 +33,10 @@ pub extern "C" fn _start() -> ! {
     let mut error_test = Init::new(buffer.get_position(), "Fake Error");
     gdt_status.pending();
     idt_status.pending();
-    unsafe {init_gdt(); init_idt();};
+    unsafe {
+        init_gdt();
+        init_idt();
+    };
     /*unsafe {
         *(0xdeadbeef as *mut u64) = 42;
     };*/

@@ -1,9 +1,9 @@
-use core::fmt::Write;
 use crate::lib::vga::Writer;
-use crate::ColorCode;
 use crate::Color;
+use crate::ColorCode;
+use core::fmt::Write;
 
-pub struct Init<'a>{
+pub struct Init<'a> {
     pub initname: &'a str,
     pub buffer: Writer,
 }
@@ -11,10 +11,7 @@ pub struct Init<'a>{
 impl<'a> Init<'a> {
     pub fn new(position: (usize, usize), initname: &'static str) -> Self {
         let buffer = Writer::from_position(position);
-        Self {
-            initname,
-            buffer
-        }
+        Self { initname, buffer }
     }
     pub fn pending(&mut self) {
         self.buffer.color_code = ColorCode::new(Color::White, Color::Black);

@@ -22,4 +22,4 @@ start: build;
 	@qemu-system-x86_64 -drive format=raw,file=./target/target/debug/bootimage-nonamekernel.bin
 
 start_release: build_release;
-	@qemu-system-x86_64 -drive format=raw,file=./target/target/release/bootimage-nonamekernel.bin
+	@qemu-system-x86_64 -s -drive format=raw,file=./target/target/release/bootimage-nonamekernel.bin

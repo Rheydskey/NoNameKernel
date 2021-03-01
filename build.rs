@@ -8,11 +8,6 @@ fn main() {
     let mut git_hash = String::from_utf8(output.stdout).unwrap();
     git_hash = git_hash.split_at(7).0.to_string();
     println!("cargo:rustc-env=GIT_HASH={}", git_hash);
-    cc::Build::new()
-        .no_default_flags(true)
-        .file("src/arch/x86_64/gdt/gdt.S")
-        .pic(true)
-        .static_flag(true)
-        .shared_flag(false)
-        .compile("x86_64_gdt");
+    nasm_rs::Build::new().target("x86_64-none-none").file("src/arch/x86_64/gdt/gdt.s").compile("x86_64_gdt").expect("Error");
+    nasm_rs::Build::new().target("x86_64-none-none").file("src/arch/x86_64/idt/idt.s").compile("x86_64_idt").expect("Error");
 }

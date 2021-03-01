@@ -4,10 +4,12 @@
 #![feature(panic_info_message)]
 
 
-use crate::arch::x86_64::gdt::gdt_install;
+use crate::arch::x86_64::gdt::init_gdt;
+use crate::arch::x86_64::idt::init_idt;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
 use core::fmt::Write;
+use crate::utils::status::Init;
 
 mod arch;
 mod utils;
@@ -25,6 +27,19 @@ pub extern "C" fn _start() -> ! {
     )
     .unwrap();
     buffer.new_line();
-    unsafe { gdt_install(&mut buffer) };
+    let mut gdt_status = Init::new(buffer.get_position(), "GDT");
+    buffer.new_line();
+    let mut idt_status = Init::new(buffer.get_position(), "IDT");
+    buffer.new_line();
+    let mut error_test = Init::new(buffer.get_position(), "Fake Error");
+    gdt_status.pending();
+    idt_status.pending();
+    unsafe {init_gdt(); init_idt();};
+    /*unsafe {
+        *(0xdeadbeef as *mut u64) = 42;
+    };*/
+    gdt_status.ok();
+    idt_status.ok();
+    error_test.error();
     loop {}
 }

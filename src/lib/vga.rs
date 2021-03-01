@@ -72,6 +72,18 @@ impl Writer {
             self.buffer.chars[row][col] = empty;
         }
     }
+    pub fn reset_cursor(&mut self) {
+        self.column_position = 0;
+    }
+    pub fn get_position(&self) -> (usize, usize) {
+        (self.column_position, self.row_position)
+    }
+    pub fn from_position(position: (usize, usize)) -> Self {
+        let mut writer = Self::default();
+        writer.row_position = position.1;
+        writer.column_position = position.0;
+        writer
+    }
 }
 use core::fmt::{Result as WriteResult, Write};
 

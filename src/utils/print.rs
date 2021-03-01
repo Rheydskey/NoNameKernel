@@ -8,7 +8,7 @@ pub fn _print(buf: &mut Writer, msg: &str) {
 pub fn _print_bytes(buf: &mut Writer, msg: u8) {
     buf.write_byte(msg)
 }
-pub fn print_color(buf: &mut Writer, msg: &str, color: ColorCode) {
+pub fn _print_color(buf: &mut Writer, msg: &str, color: ColorCode) {
     buf.color_code = color;
     buf.write_string(msg);
 }

@@ -7,6 +7,9 @@ bootimage_prepare:
 qemu_prepare:
 	@qemu-system-x86_64 --version &> /dev/null
 
+bochs:
+	@bochs -h &> /dev/null
+
 prepare: cargo_prepare bootimage_prepare qemu_prepare;
 
 build: prepare;
@@ -18,8 +21,17 @@ build_release: prepare;
 clean: cargo_prepare;
 	@cargo clean
 
-start: build;
-	@qemu-system-x86_64 -drive format=raw,file=./target/target/debug/bootimage-nonamekernel.bin
+bin2img:
+	@dd if=./target/target/debug/bootimage-nonamekernel.bin of=./target/target/debug/bochs.img conv=notrunc
 
-start_release: build_release;
+start_qemu: build ;
+	@qemu-system-x86_64 -s -drive format=raw,file=./target/target/debug/bootimage-nonamekernel.bin
+
+start_release_qemu: build_release;
 	@qemu-system-x86_64 -s -drive format=raw,file=./target/target/release/bootimage-nonamekernel.bin
+
+start: build bin2img;
+	@bochs -q
+
+start_release: build_release bin2img;
+	@bochs -q

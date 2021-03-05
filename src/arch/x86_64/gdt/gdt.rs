@@ -1,4 +1,4 @@
-use core::mem::{transmute, size_of};
+use core::mem::size_of;
 
 #[derive(Clone, Copy)]
 pub struct GDT {

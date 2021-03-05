@@ -2,9 +2,6 @@ use lazy_static::lazy_static;
 pub mod gdt;
 
 use crate::arch::x86_64::gdt::gdt::{GDT, GDTPointer, GDTSelector, GDTEntry, GDTFlags, GDTGranularity};
-use crate::lib::vga::Writer;
-use core::fmt::Write;
-use core::mem::transmute;
 
 lazy_static!{
     static ref GDTPTR: GDTPointer = GDTPointer::default();

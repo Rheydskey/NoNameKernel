@@ -10,6 +10,7 @@ pub struct ScreenChar {
 const BUFFER_HEIGHT: usize = 20;
 const BUFFER_WIDTH: usize = 80;
 
+#[derive(Clone, Copy)]
 #[repr(transparent)]
 pub struct Buffer {
     pub chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
@@ -60,6 +61,13 @@ impl Writer {
             }
         }
     }
+    pub fn write_center(&mut self, msg: &str) {
+        let cursor_hor = BUFFER_WIDTH / 2;
+        let cursor_ver = (BUFFER_HEIGHT / 2 ) - (msg.len() / 2);
+        self.column_position = cursor_hor;
+        self.row_position = cursor_ver;
+        self.write_string(msg);
+    }
     pub fn new_line(&mut self) {
         self.row_position += 1;
         self.column_position = 0;
@@ -72,6 +80,18 @@ impl Writer {
         for col in 0..BUFFER_WIDTH {
             self.buffer.chars[row][col] = empty;
         }
+    }
+    pub fn cursor_at_center(&mut self) {
+        let cursor_hor = BUFFER_WIDTH / 2;
+        let cursor_ver = (BUFFER_HEIGHT / 2 );
+        self.column_position = cursor_hor;
+        self.row_position = cursor_ver;
+    }
+    pub fn cursor_at_center_relation_message(&mut self, message: &str) {
+        let cursor_hor = BUFFER_WIDTH / 2;
+        let cursor_ver = (BUFFER_HEIGHT / 2 ) - (message.len() / 2);
+        self.column_position = cursor_hor;
+        self.row_position = cursor_ver;
     }
     pub fn reset_cursor(&mut self) {
         self.column_position = 0;

@@ -2,9 +2,10 @@
 #![no_main]
 #![feature(asm)]
 #![feature(panic_info_message)]
+#![feature(llvm_asm)]
 
 use crate::arch::x86_64::gdt::init_gdt;
-use crate::arch::x86_64::idt::init_idt;
+use crate::arch::x86_64::idt::interrupts::isr_install;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
 use crate::utils::status::Init;
@@ -35,13 +36,11 @@ pub extern "C" fn _start() -> ! {
     idt_status.pending();
     unsafe {
         init_gdt();
-        init_idt();
+        gdt_status.ok();
+        // isr_install();
+        // idt_status.ok();
     };
-    /*unsafe {
-        *(0xdeadbeef as *mut u64) = 42;
-    };*/
-    gdt_status.ok();
-    idt_status.ok();
     error_test.error();
+    //unsafe {asm!("int 3")}
     loop {}
 }

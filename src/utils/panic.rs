@@ -6,6 +6,7 @@ use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     let mut buffer = Writer::default();
+
     let panic_message = match _info.message() {
         Some(arg) => arg.as_str().unwrap_or("No Message Error"),
         None => "No message Error",

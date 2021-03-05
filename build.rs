@@ -18,4 +18,9 @@ fn main() {
         .file("src/arch/x86_64/idt/idt.s")
         .compile("x86_64_idt")
         .expect("Error");
+    nasm_rs::Build::new()
+        .target("x86_64-none-none")
+        .file("src/arch/x86_64/idt/interrupts/interrupt.asm")
+        .compile("interrupt")
+        .expect("Error");
 }

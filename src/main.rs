@@ -37,7 +37,6 @@ pub extern "C" fn _start() -> ! {
     unsafe {
         init_gdt();
         gdt_status.ok();
-        // isr_install();
         // idt_status.ok();
     };
     error_test.error();

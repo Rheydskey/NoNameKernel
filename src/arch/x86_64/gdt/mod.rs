@@ -26,5 +26,5 @@ pub unsafe fn init_gdt() {
 
 #[link(name = "x86_64_gdt")]
 extern "C" {
-    pub fn _x86_64_lgdt(gdtptr: usize, segment1: u16, segement2: u16);
+    pub fn _x86_64_lgdt(gdtptr: usize, segment1: u16, segment2: u16);
 }

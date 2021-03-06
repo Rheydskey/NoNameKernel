@@ -1,5 +1,6 @@
 use core::mem::size_of;
 
+#[repr(packed)]
 #[derive(Clone, Copy)]
 pub struct GDT {
     GDT: [GDTEntry; 5]
@@ -19,18 +20,19 @@ impl GDT {
     }
 }
 
-#[derive(Default, Clone, Copy)]
 #[repr(packed)]
+#[derive(Default, Clone, Copy)]
 pub struct GDTPointer {
     len: u16,
     address: u64
 }
 impl GDTPointer {
     pub unsafe fn register(&mut self, gdt: GDT) {
-        self.len = size_of::<GDT>() as u16;
+        self.len = (size_of::<GDT>() * 5) as u16;
         self.address = &gdt as *const _ as u64;
     }
 }
+
 #[repr(packed)]
 #[derive(Copy, Clone)]
 pub struct GDTEntry {

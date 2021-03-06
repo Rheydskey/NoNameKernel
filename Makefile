@@ -31,6 +31,7 @@ start_release_qemu: build_release;
 	@qemu-system-x86_64 -s -drive format=raw,file=./target/target/release/bootimage-nonamekernel.bin
 
 start: build bin2img;
+	@rm ./target/target/debug/bochs.img.lock
 	@bochs -q
 
 start_release: build_release bin2img;

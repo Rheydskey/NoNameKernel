@@ -5,7 +5,6 @@
 #![feature(llvm_asm)]
 
 use crate::arch::x86_64::gdt::init_gdt;
-use crate::arch::x86_64::idt::interrupts::isr_install;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
 use crate::utils::status::Init;
@@ -37,9 +36,7 @@ pub extern "C" fn _start() -> ! {
     unsafe {
         init_gdt();
         gdt_status.ok();
-        // idt_status.ok();
     };
     error_test.error();
-    //unsafe {asm!("int 3")}
     loop {}
 }

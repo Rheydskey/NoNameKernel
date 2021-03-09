@@ -63,16 +63,20 @@ impl Writer {
     }
     pub fn write_center(&mut self, msg: &str) {
         let cursor_hor = BUFFER_WIDTH / 2;
-        let cursor_ver = (BUFFER_HEIGHT / 2 ) - (msg.len() / 2);
+        let cursor_ver = (BUFFER_HEIGHT / 2) - (msg.len() / 2);
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
         self.write_string(msg);
     }
     pub fn new_line(&mut self) {
-        self.row_position += 1;
+        if self.row_position + 1 == BUFFER_HEIGHT {
+            self.row_position = 0;
+        } else {
+            self.row_position += 1;
+        }
         self.column_position = 0;
     }
-    pub fn _clear_row(&mut self, row: usize) {
+    pub fn clear_row(&mut self, row: usize) {
         let empty: ScreenChar = ScreenChar {
             ascii_character: b' ',
             color_code: ColorCode::new(Color::Black, Color::Black),
@@ -81,15 +85,20 @@ impl Writer {
             self.buffer.chars[row][col] = empty;
         }
     }
+    pub fn clear_screen(&mut self) {
+        for i in 0..BUFFER_HEIGHT {
+            self.clear_row(i);
+        }
+    }
     pub fn cursor_at_center(&mut self) {
         let cursor_hor = BUFFER_WIDTH / 2;
-        let cursor_ver = (BUFFER_HEIGHT / 2 );
+        let cursor_ver = (BUFFER_HEIGHT / 2);
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
     }
     pub fn cursor_at_center_relation_message(&mut self, message: &str) {
         let cursor_hor = BUFFER_WIDTH / 2;
-        let cursor_ver = (BUFFER_HEIGHT / 2 ) - (message.len() / 2);
+        let cursor_ver = (BUFFER_HEIGHT / 2) - (message.len() / 2);
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
     }

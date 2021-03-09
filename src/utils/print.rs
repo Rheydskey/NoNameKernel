@@ -1,8 +1,8 @@
-use lazy_static::lazy_static;
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
+use lazy_static::lazy_static;
 
-lazy_static!{
+lazy_static! {
     static ref BUFFER: Writer = Writer::default();
 }
 

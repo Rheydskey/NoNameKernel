@@ -1,40 +1,39 @@
 use core::mem::size_of;
 
-#[repr(packed)]
-#[derive(Clone, Copy)]
-pub struct GDT {
-    GDT: [GDTEntry; 5]
+pub trait TraitGDT {
+    fn new() -> [GDTEntry; 5];
+    fn zero(&mut self);
+    fn set(&mut self, index: u64, entry: GDTEntry);
 }
 
-impl GDT {
-    pub fn new() -> Self {
-        Self {
-            GDT: [GDTEntry::new(0,0); 5]
-        }
+impl TraitGDT for [GDTEntry; 5] {
+    fn new() -> Self {
+        [GDTEntry::new(0, 0); 5]
     }
-    pub fn zero(&mut self) {
-        self.GDT[0] = GDTEntry::new(0,0);
+    fn zero(&mut self) {
+        self[0] = GDTEntry::new(0, 0);
     }
-    pub fn set(&mut self,index: usize, entry: GDTEntry) {
-        self.GDT[index] = entry;
+    fn set(&mut self, index: u64, entry: GDTEntry) {
+        self[index as usize] = entry;
     }
 }
 
 #[repr(packed)]
-#[derive(Default, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy)]
 pub struct GDTPointer {
     len: u16,
-    address: u64
+    address: u64,
 }
+
 impl GDTPointer {
-    pub unsafe fn register(&mut self, gdt: GDT) {
-        self.len = (size_of::<GDT>() * 5) as u16;
+    pub unsafe fn register(&mut self, gdt: [GDTEntry; 5]) {
+        self.len = ((size_of::<GDTEntry>() * 5) - 1 ) as u16;
         self.address = &gdt as *const _ as u64;
     }
 }
 
 #[repr(packed)]
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct GDTEntry {
     limit_low: u16,
     base_low: u16,
@@ -52,7 +51,7 @@ impl GDTEntry {
             base_low: 0,
             flags: flag | GDTFlags::PRESENT as u8,
             granularity: (granularity << 4) | 0x0F,
-            limit_low: 0
+            limit_low: 0,
         }
     }
 }

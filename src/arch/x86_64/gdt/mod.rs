@@ -2,12 +2,12 @@ use lazy_static::lazy_static;
 pub mod gdt;
 
 use crate::arch::x86_64::gdt::gdt::{
-    GDTEntry, GDTFlags, GDTGranularity, GDTPointer, GDTSelector, TraitGDT,
+    GDTEntry, GDTFlags, GDTGranularity, GDTPointer, GDTSelector, TraitGDT, GDTLENGHT
 };
 
 lazy_static! {
     static ref GDTPTR: GDTPointer = GDTPointer::default();
-    static ref GDTREF: [GDTEntry; 5] = [GDTEntry::new(0, 0); 5];
+    static ref GDTREF: [GDTEntry; GDTLENGHT] = [GDTEntry::new(0, 0); GDTLENGHT];
 }
 
 pub unsafe fn init_gdt() {

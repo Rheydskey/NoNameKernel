@@ -1,14 +1,16 @@
 use core::mem::size_of;
 
+pub const GDTLENGHT: usize = 5;
+
 pub trait TraitGDT {
-    fn new() -> [GDTEntry; 5];
+    fn new() -> [GDTEntry; GDTLENGHT];
     fn zero(&mut self);
     fn set(&mut self, index: u64, entry: GDTEntry);
 }
 
-impl TraitGDT for [GDTEntry; 5] {
+impl TraitGDT for [GDTEntry; GDTLENGHT] {
     fn new() -> Self {
-        [GDTEntry::new(0, 0); 5]
+        [GDTEntry::new(0, 0); GDTLENGHT]
     }
     fn zero(&mut self) {
         self[0] = GDTEntry::new(0, 0);
@@ -26,8 +28,8 @@ pub struct GDTPointer {
 }
 
 impl GDTPointer {
-    pub unsafe fn register(&mut self, gdt: [GDTEntry; 5]) {
-        self.len = ((size_of::<GDTEntry>() * 5) - 1 ) as u16;
+    pub unsafe fn register(&mut self, gdt: [GDTEntry; GDTLENGHT]) {
+        self.len = ((size_of::<GDTEntry>() * GDTLENGHT) - 1 ) as u16;
         self.address = &gdt as *const _ as u64;
     }
 }

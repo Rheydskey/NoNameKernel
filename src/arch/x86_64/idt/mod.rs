@@ -12,8 +12,8 @@ pub struct IdtPtr {
 }
 
 enum TypeAttr {
-    INTGATE = 0x8e,
-    TRAPGATE = 0xef,
+    IntGate = 0x8e,
+    TrapGate = 0xef,
 }
 
 #[repr(C, packed)]
@@ -40,6 +40,7 @@ impl Default for IdtEntry {
         }
     }
 }
+
 lazy_static! {
     static ref IDTENTRIES: [IdtEntry; 256] = [IdtEntry::default(); 256];
     static ref IDTPTR: IdtPtr = IdtPtr { limit: 0, base: 0 };
@@ -50,7 +51,7 @@ pub unsafe fn set_entry(num: usize, offset: usize, ist: u8, attr: u8) {
     let entry = IdtEntry {
         offset_low: (offset & 0xFFFF) as u16,
         selector: 0x08,
-        ist: ist,
+        ist,
         type_attr: attr,
         offset_mid: ((offset >> 16) & 0xFFFF) as u16,
         offset_high: (offset >> 32 & 0xFFFFFFFF) as u32,

@@ -37,20 +37,18 @@ const EXCEPTION_MESSAGES: [&str; 31] = [
     "Reserved",
 ];
 use super::TypeAttr;
-use crate::arch::x86_64::idt::TypeAttr::INTGATE;
+use crate::arch::x86_64::idt::TypeAttr::IntGate;
 
 pub unsafe fn isr_install() {
     for i in 0..48 {
-        set_entry(i, __interrupt_vector[i], 0, TypeAttr::INTGATE as u8);
+        set_entry(i, __interrupt_vector[i], 0, TypeAttr::IntGate as u8);
     }
 
-    set_entry(127, __interrupt_vector[48], 0, INTGATE as u8);
-    set_entry(128, __interrupt_vector[49], 0, INTGATE as u8 | 0b01100000);
+    set_entry(127, __interrupt_vector[48], 0, IntGate as u8);
+    set_entry(128, __interrupt_vector[49], 0, IntGate as u8 | 0b01100000);
 
     // Load the IDT to the CPU
     init_idt();
-
-    asm!("sti");
 }
 
 #[link(name = "interrupt")]
@@ -59,7 +57,6 @@ extern "C" {
 }
 
 #[allow(dead_code)]
-#[derive(Debug)]
 #[repr(C, packed)]
 pub struct Registers {
     ds: u64,
@@ -82,12 +79,15 @@ pub struct Registers {
 pub extern "C" fn isr_handler(rps: usize) {
     let mut writer = Writer::default();
     let reg = unsafe { &*(rps as *const Registers) };
+    let error_code = reg.err_code;
+    let int_code = reg.int_no;
     write!(
         writer,
         "[{}] Interrups : {}",
-        reg.err_code,
+        error_code,
         EXCEPTION_MESSAGES
-            .get(reg.int_no as usize)
+            .get(int_code as usize)
             .unwrap_or(&"NO MSG")
-    );
+    )
+    .expect("Error");
 }

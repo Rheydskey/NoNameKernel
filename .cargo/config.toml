@@ -1,0 +1,7 @@
+[build]
+jobs = 4
+target-dir = "build"
+
+[target.x86_64-unknown-none]
+linker = "ld.lld"
+ld-script = "link.ld"

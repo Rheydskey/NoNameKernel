@@ -1,8 +1,7 @@
+#![allow(dead_code)]
 #![no_std]
 #![no_main]
-#![feature(asm)]
 #![feature(panic_info_message)]
-#![feature(llvm_asm)]
 
 use crate::arch::x86_64::gdt::init_gdt;
 use crate::lib::vga::Writer;
@@ -29,14 +28,11 @@ pub extern "C" fn _start() -> ! {
     let mut gdt_status = Init::new(buffer.get_position(), "GDT");
     buffer.new_line();
     let mut idt_status = Init::new(buffer.get_position(), "IDT");
-    buffer.new_line();
-    let mut error_test = Init::new(buffer.get_position(), "Fake Error");
     gdt_status.pending();
     idt_status.pending();
     unsafe {
         init_gdt();
         gdt_status.ok();
     };
-    error_test.error();
     loop {}
 }

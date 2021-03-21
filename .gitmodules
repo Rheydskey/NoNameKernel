@@ -1,0 +1,7 @@
+[submodule "limine/limine"]
+	path = submodules/limine
+	url = https://github.com/limine-bootloader/limine
+	branch = v1.0-branch
+[submodule "submodules/echfs"]
+	path = submodules/echfs
+	url = https://github.com/echfs/echfs.git

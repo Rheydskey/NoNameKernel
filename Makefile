@@ -3,29 +3,26 @@ KERNEL_HDD = disk.hdd
 cargo_prepare:
 	@cargo -V &> /dev/null
 
-bootimage_prepare:
-	cargo install bootimage
-
 qemu_prepare:
 	@qemu-system-x86_64 --version &> /dev/null
 
 bochs:
 	@bochs -h &> /dev/null
 
-prepare: cargo_prepare bootimage_prepare qemu_prepare;
+prepare: cargo_prepare qemu_prepare;
 
 build: prepare;
-	@cargo bootimage --target target.json
+	@cargo build --target target.json
 
 build_release: prepare;
-	@cargo bootimage --release --target target.json
+	@cargo build --release --target target.json
 
 clean: cargo_prepare;
 	@cargo clean
 	rm -f $(KERNEL_HDD)
 
 bin2img:
-	@dd if=./target/target/debug/bootimage-nonamekernel.bin of=./target/target/debug/bochs.img conv=notrunc
+	@dd if=./build/target/debug/nonamekernel of=./build/target/debug/bochs.img conv=notrunc
 
 start_qemu: build ;
 	@qemu-system-x86_64 -s -drive format=raw,file=./target/target/debug/bootimage-nonamekernel.bin

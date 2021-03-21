@@ -92,7 +92,7 @@ impl Writer {
     }
     pub fn cursor_at_center(&mut self) {
         let cursor_hor = BUFFER_WIDTH / 2;
-        let cursor_ver = (BUFFER_HEIGHT / 2);
+        let cursor_ver = BUFFER_HEIGHT / 2;
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
     }

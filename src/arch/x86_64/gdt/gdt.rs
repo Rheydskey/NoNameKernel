@@ -3,7 +3,7 @@ use core::mem::size_of;
 pub const GDTLENGHT: usize = 5;
 
 pub trait TraitGDT {
-    fn new() -> [GDTEntry; GDTLENGHT];
+    fn new() -> Self;
     fn zero(&mut self);
     fn set(&mut self, index: u64, entry: GDTEntry);
 }
@@ -20,7 +20,7 @@ impl TraitGDT for [GDTEntry; GDTLENGHT] {
     }
 }
 
-#[repr(packed)]
+#[repr(C, packed)]
 #[derive(Debug, Default, Clone, Copy)]
 pub struct GDTPointer {
     len: u16,
@@ -34,7 +34,7 @@ impl GDTPointer {
     }
 }
 
-#[repr(packed)]
+#[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
 pub struct GDTEntry {
     limit_low: u16,
@@ -51,7 +51,7 @@ impl GDTEntry {
             base_high: 0,
             base_mid: 0,
             base_low: 0,
-            flags: flag | GDTFlags::PRESENT as u8,
+            flags: flag | GDTFlags::WRITABLE as u8 | GDTFlags::PRESENT as u8,
             granularity: (granularity << 4) | 0x0F,
             limit_low: 0,
         }

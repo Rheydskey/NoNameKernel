@@ -15,10 +15,10 @@ pub unsafe fn init_gdt() {
     let mut gdtptr = *GDTPTR;
 
     gdt.zero();
-    gdt.set(1,GDTEntry::new(GDTFlags::CS as u8 | GDTFlags::WRITABLE as u8,GDTGranularity::LongModeGranularity as u8));
-    gdt.set(2,GDTEntry::new(GDTFlags::DS as u8 | GDTFlags::WRITABLE as u8, 0));
-    gdt.set(3,GDTEntry::new(GDTFlags::CS as u8 | GDTFlags::USER as u8 | GDTFlags::WRITABLE as u8, GDTGranularity::LongModeGranularity as u8));
-    gdt.set(4,GDTEntry::new(GDTFlags::DS as u8 | GDTFlags::USER as u8 | GDTFlags::WRITABLE as u8, 0));
+    gdt.set(1,GDTEntry::new(GDTFlags::CS as u8,GDTGranularity::LongModeGranularity as u8));
+    gdt.set(2,GDTEntry::new(GDTFlags::DS as u8, 0));
+    gdt.set(3,GDTEntry::new(GDTFlags::CS as u8 | GDTFlags::USER as u8, GDTGranularity::LongModeGranularity as u8));
+    gdt.set(4,GDTEntry::new(GDTFlags::DS as u8 | GDTFlags::USER as u8, 0));
 
     gdtptr.register(gdt);
 

@@ -10,12 +10,15 @@ fn main() {
     println!("cargo:rustc-env=GIT_HASH={}", git_hash);
     nasm_rs::Build::new()
         .target("x86_64-none-none")
-        .file("src/arch/x86_64/gdt/gdt.s")
+        .file("src/arch/x86_64/gdt/gdt.asm")
+        .flag("-F dwarf")
+        .flag("-w+all")
+        .flag("-Werror")
         .compile("x86_64_gdt")
         .expect("Error");
     nasm_rs::Build::new()
         .target("x86_64-none-none")
-        .file("src/arch/x86_64/idt/idt.s")
+        .file("src/arch/x86_64/idt/idt.asm")
         .compile("x86_64_idt")
         .expect("Error");
     nasm_rs::Build::new()

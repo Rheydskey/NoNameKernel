@@ -1,24 +1,36 @@
-use lazy_static::lazy_static;
 pub mod gdt;
 
 use crate::arch::x86_64::gdt::gdt::{
-    GDTEntry, GDTFlags, GDTGranularity, GDTPointer, GDTSelector, TraitGDT, GDTLENGHT
+    GDTEntry, GDTFlags, GDTGranularity, GDTPointer, GDTSelector, TraitGDT, GDTLENGHT,
 };
 
-lazy_static! {
-    static ref GDTPTR: GDTPointer = GDTPointer::default();
-    static ref GDTREF: [GDTEntry; GDTLENGHT] = [GDTEntry::new(0, 0); GDTLENGHT];
-}
+static GDTPTR: &GDTPointer = &GDTPointer::default();
+static GDTREF: &[GDTEntry; GDTLENGHT] = &[GDTEntry::new(0, 0); GDTLENGHT];
 
 pub unsafe fn init_gdt() {
     let mut gdt = *GDTREF;
     let mut gdtptr = *GDTPTR;
 
     gdt.zero();
-    gdt.set(1,GDTEntry::new(GDTFlags::CS as u8,GDTGranularity::LongModeGranularity as u8));
-    gdt.set(2,GDTEntry::new(GDTFlags::DS as u8, 0));
-    gdt.set(3,GDTEntry::new(GDTFlags::CS as u8 | GDTFlags::USER as u8, GDTGranularity::LongModeGranularity as u8));
-    gdt.set(4,GDTEntry::new(GDTFlags::DS as u8 | GDTFlags::USER as u8, 0));
+    gdt.set(
+        1,
+        GDTEntry::new(
+            GDTFlags::CS as u8,
+            GDTGranularity::LongModeGranularity as u8,
+        ),
+    );
+    gdt.set(2, GDTEntry::new(GDTFlags::DS as u8, 0));
+    gdt.set(
+        3,
+        GDTEntry::new(
+            GDTFlags::CS as u8 | GDTFlags::USER as u8,
+            GDTGranularity::LongModeGranularity as u8,
+        ),
+    );
+    gdt.set(
+        4,
+        GDTEntry::new(GDTFlags::DS as u8 | GDTFlags::USER as u8, 0),
+    );
 
     gdtptr.register(gdt);
 

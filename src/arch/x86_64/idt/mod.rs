@@ -2,7 +2,6 @@ pub mod interrupts;
 
 use core::mem::transmute;
 use core::{mem::size_of, u16};
-use lazy_static::lazy_static;
 
 #[repr(C, packed)]
 #[derive(Clone, Copy)]
@@ -27,8 +26,8 @@ pub struct IdtEntry {
     offset_high: u32,
     zero: u32,
 }
-impl Default for IdtEntry {
-    fn default() -> Self {
+impl IdtEntry {
+    const fn default() -> Self {
         Self {
             offset_low: 0,
             selector: 0,
@@ -41,10 +40,8 @@ impl Default for IdtEntry {
     }
 }
 
-lazy_static! {
-    static ref IDTENTRIES: [IdtEntry; 256] = [IdtEntry::default(); 256];
-    static ref IDTPTR: IdtPtr = IdtPtr { limit: 0, base: 0 };
-}
+static IDTENTRIES: &[IdtEntry; 256] = &[IdtEntry::default(); 256];
+static IDTPTR: &IdtPtr = &IdtPtr { limit: 0, base: 0 };
 
 pub unsafe fn set_entry(num: usize, offset: usize, ist: u8, attr: u8) {
     let mut idtd = *IDTENTRIES;

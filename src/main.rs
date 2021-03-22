@@ -2,6 +2,9 @@
 #![no_std]
 #![no_main]
 #![feature(panic_info_message)]
+#![feature(const_raw_ptr_to_usize_cast)]
+#![feature(const_mut_refs)]
+#![feature(const_raw_ptr_deref)]
 
 use crate::arch::x86_64::gdt::init_gdt;
 use crate::lib::vga::Writer;

@@ -17,4 +17,3 @@ panic = "abort"
 nasm-rs = "0.2.0"
 
 [dependencies]
-lazy_static = {version = "1.4.0", features = ["spin_no_std"] }

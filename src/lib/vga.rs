@@ -24,7 +24,7 @@ pub struct Writer {
 }
 
 impl Writer {
-    pub fn default() -> Self {
+    pub const fn default() -> Self {
         Writer {
             row_position: 0,
             column_position: 0,

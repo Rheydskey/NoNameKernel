@@ -1,10 +1,5 @@
 use crate::lib::vga::Writer;
 use crate::lib::vga_color::{Color, ColorCode};
-use lazy_static::lazy_static;
-
-lazy_static! {
-    static ref BUFFER: Writer = Writer::default();
-}
 
 pub fn _print(buf: &mut Writer, msg: &str) {
     buf.color_code = ColorCode::new(Color::White, Color::Black);

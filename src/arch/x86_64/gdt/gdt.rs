@@ -21,16 +21,19 @@ impl TraitGDT for [GDTEntry; GDTLENGHT] {
 }
 
 #[repr(C, packed)]
-#[derive(Debug, Default, Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct GDTPointer {
     len: u16,
     address: u64,
 }
 
 impl GDTPointer {
-    pub unsafe fn register(&mut self, gdt: [GDTEntry; GDTLENGHT]) {
-        self.len = ((size_of::<GDTEntry>() * GDTLENGHT) - 1 ) as u16;
+    pub const unsafe fn register(&mut self, gdt: [GDTEntry; GDTLENGHT]) {
+        self.len = ((size_of::<GDTEntry>() * GDTLENGHT) - 1) as u16;
         self.address = &gdt as *const _ as u64;
+    }
+    pub const fn default() -> Self {
+        Self { len: 0, address: 0 }
     }
 }
 
@@ -46,7 +49,7 @@ pub struct GDTEntry {
 }
 
 impl GDTEntry {
-    pub fn new(flag: u8, granularity: u8) -> Self {
+    pub const fn new(flag: u8, granularity: u8) -> Self {
         Self {
             base_high: 0,
             base_mid: 0,

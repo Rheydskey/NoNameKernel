@@ -39,6 +39,8 @@ start_release: build_release bin2img;
 
 .PHONY: clean all run
 
+
+
 all: build $(KERNEL_HDD)
 
 run: $(KERNEL_HDD)
@@ -48,7 +50,6 @@ limine:
 	make -C submodules/limine
 
 echfs:
-	git clone https://github.com/echfs submodules/echfs
 	make -C submodules/echfs
 	sudo make -C submodules/echfs install
 
@@ -61,3 +62,12 @@ $(KERNEL_HDD): limine
 	echfs-utils -g -p0 $(KERNEL_HDD) import ./submodules/limine.cfg limine.cfg
 	echfs-utils -g -p0 $(KERNEL_HDD) import ./build/target/debug/nonamekernel boot/test.elf
 	./submodules/limine/limine-install $(KERNEL_HDD)
+
+deps: init_deps make_deps
+
+init_deps:
+	@mkdir -p submodules
+	@git clone https://github.com/limine-bootloader/limine ./submodules/limine
+	@git clone https://github.com/echfs/echfs.git ./submodules/echfs
+
+make_deps: limine echfs

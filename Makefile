@@ -12,10 +12,10 @@ bochs:
 prepare: cargo_prepare qemu_prepare;
 
 build: prepare;
-	@cargo build --target target.json
+	@cargo build
 
 build_release: prepare;
-	@cargo build --release --target target.json
+	@cargo build --release
 
 clean: cargo_prepare;
 	@cargo clean
@@ -39,7 +39,7 @@ start_release: build_release bin2img;
 
 .PHONY: clean all run
 
-all: $(KERNEL_HDD)
+all: build $(KERNEL_HDD)
 
 run: $(KERNEL_HDD)
 	qemu-system-x86_64 -m 2G -hda $(KERNEL_HDD)
@@ -59,6 +59,5 @@ $(KERNEL_HDD): limine
 	parted -s $(KERNEL_HDD) mkpart primary 2048s 100%
 	echfs-utils -g -p0 $(KERNEL_HDD) quick-format 512
 	echfs-utils -g -p0 $(KERNEL_HDD) import ./submodules/limine.cfg limine.cfg
-	echfs-utils -g -p0 $(KERNEL_HDD) import ./submodules/limine/limine.sys limine.sys
-	echfs-utils -g -p0 $(KERNEL_HDD) import ./target/target/debug/nonamekernel boot/test.elf
+	echfs-utils -g -p0 $(KERNEL_HDD) import ./build/target/debug/nonamekernel boot/test.elf
 	./submodules/limine/limine-install $(KERNEL_HDD)

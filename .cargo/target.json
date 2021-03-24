@@ -1,0 +1,25 @@
+{
+    "llvm-target": "x86_64-elf",
+    "data-layout": "e-m:e-i64:64-f80:128-n8:16:32:64-S128",
+    "arch": "x86_64",
+    "target-endian": "little",
+    "target-pointer-width": "64",
+    "target-c-int-width": "32",
+    "os": "none",
+    "executables": true,
+    "linker-is-gnu": true,
+    "linker-flavor": "gcc",
+    "panic-strategy": "abort",
+    "disable-redzone": true,
+    "features": "-mmx,-sse,+soft-float",
+    "vendor": "unknown",
+    "pre-link-args": {
+        "gcc": [
+            "-Wl,--as-needed",
+            "-Wl,-z,noexecstack",
+            "-m64",
+            "-T",
+            "/media/HDD/Workfolder/RUST/RheydOS/linker.ld"
+        ]
+    }
+}

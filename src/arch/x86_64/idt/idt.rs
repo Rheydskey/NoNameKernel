@@ -2,7 +2,7 @@ use core::{mem::size_of, usize};
 
 use bitflags::bitflags;
 
-const IDT_ENTRIES : usize = 256;
+const IDT_ENTRIES: usize = 256;
 static mut IDT: [IDTEntry; IDT_ENTRIES] = [IDTEntry::null(); IDT_ENTRIES];
 
 #[repr(C, packed)]
@@ -53,9 +53,8 @@ struct IDTEntry {
     type_attr: u8,
     offset_m16: u16,
     offset_h32: u32,
-    zero: u32
+    zero: u32,
 }
-
 
 impl IDTEntry {
     pub const fn null() -> Self {
@@ -82,7 +81,7 @@ impl IDTEntry {
 
     pub fn set_function(&mut self, handler: HandlerInterrupt) {
         self.set_flags(IDTFlags::PRESENT | IDTFlags::RING_0 | IDTFlags::INTERRUPT);
-        self.set_offset(8,handler as usize)
+        self.set_offset(8, handler as usize)
     }
 }
 

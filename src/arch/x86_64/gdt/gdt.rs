@@ -59,7 +59,6 @@ extern "C" {
 
 pub fn gdt_init() {
     unsafe {
-
         GDT[0] = GDTEntry::new(0, 0, 0, 0x00, 0x00, 0);
         GDT[1] = GDTEntry::new(0, 0, 0, 0x9A, 0xA0, 0);
         GDT[2] = GDTEntry::new(0, 0, 0, 0x92, 0xA0, 0);

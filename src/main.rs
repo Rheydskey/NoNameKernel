@@ -8,7 +8,10 @@
 #![feature(asm)]
 #![feature(abi_x86_interrupt)]
 
-use arch::x86_64::{gdt::gdt::gdt_init, idt::idt::{halt, init_idt}};
+use arch::x86_64::{
+    gdt::gdt::gdt_init,
+    idt::idt::{halt, init_idt},
+};
 use drivers::vga::vga_color::{Color, ColorCode};
 
 mod arch;
@@ -39,7 +42,7 @@ pub extern "C" fn _start() -> ! {
 
     idt.ok();
 
-    unsafe {halt()};
+    unsafe { halt() };
 
     loop {}
 }

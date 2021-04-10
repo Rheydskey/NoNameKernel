@@ -1,7 +1,6 @@
-
+use crate::drivers::vga::buffer::Writer;
 use crate::Color;
 use crate::ColorCode;
-use crate::drivers::vga::buffer::Writer;
 use core::fmt::Write;
 
 pub struct Init<'a> {
@@ -11,7 +10,7 @@ pub struct Init<'a> {
 
 impl<'a> Init<'a> {
     pub fn new(initname: &'static str) -> Self {
-        let buffer = unsafe {crate::drivers::vga::render::BUFFER.get_mut().unwrap()};
+        let buffer = unsafe { crate::drivers::vga::render::BUFFER.get_mut().unwrap() };
 
         let position = buffer._get_position();
 

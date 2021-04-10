@@ -1,12 +1,12 @@
+use super::idt::disable_interrupts;
 use super::idt::InterruptStackFrame;
 use crate::println;
-use super::idt::disable_interrupts;
 #[macro_export]
 macro_rules! interrupt {
     ($arg:tt) => {
         pub extern "x86-interrupt" fn $arg(interrupt: InterruptStackFrame) {
             println!("Error : {:?}", interrupt);
-            unsafe {disable_interrupts()};
+            unsafe { disable_interrupts() };
         }
     };
 }
@@ -34,4 +34,3 @@ interrupt!(machine_check);
 interrupt!(simd);
 interrupt!(virtualization);
 interrupt!(security);
-

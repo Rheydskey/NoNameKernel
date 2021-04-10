@@ -61,7 +61,7 @@ impl Writer {
             }
         }
     }
-    pub fn write_center(&mut self, msg: &str) {
+    pub fn _write_center(&mut self, msg: &str) {
         let cursor_hor = BUFFER_WIDTH / 2;
         let cursor_ver = (BUFFER_HEIGHT / 2) - (msg.len() / 2);
         self.column_position = cursor_hor;
@@ -76,7 +76,7 @@ impl Writer {
         }
         self.column_position = 0;
     }
-    pub fn clear_row(&mut self, row: usize) {
+    pub fn _clear_row(&mut self, row: usize) {
         let empty: ScreenChar = ScreenChar {
             ascii_character: b' ',
             color_code: ColorCode::new(Color::Black, Color::Black),
@@ -85,30 +85,30 @@ impl Writer {
             self.buffer.chars[row][col] = empty;
         }
     }
-    pub fn clear_screen(&mut self) {
+    pub fn _clear_screen(&mut self) {
         for i in 0..BUFFER_HEIGHT {
-            self.clear_row(i);
+            self._clear_row(i);
         }
     }
-    pub fn cursor_at_center(&mut self) {
+    pub fn _cursor_at_center(&mut self) {
         let cursor_hor = BUFFER_WIDTH / 2;
         let cursor_ver = BUFFER_HEIGHT / 2;
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
     }
-    pub fn cursor_at_center_relation_message(&mut self, message: &str) {
+    pub fn _cursor_at_center_relation_message(&mut self, message: &str) {
         let cursor_hor = BUFFER_WIDTH / 2;
         let cursor_ver = (BUFFER_HEIGHT / 2) - (message.len() / 2);
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
     }
-    pub fn reset_cursor(&mut self) {
+    pub fn _reset_cursor(&mut self) {
         self.column_position = 0;
     }
-    pub fn get_position(&self) -> (usize, usize) {
+    pub fn _get_position(&self) -> (usize, usize) {
         (self.column_position, self.row_position)
     }
-    pub fn from_position(position: (usize, usize)) -> Self {
+    pub fn _from_position(position: (usize, usize)) -> Self {
         let mut writer = Self::default();
         writer.row_position = position.1;
         writer.column_position = position.0;

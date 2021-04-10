@@ -7,6 +7,7 @@
 #![feature(const_maybe_uninit_assume_init)]
 #![feature(once_cell)]
 
+use arch::x86_64::gdt::gdt::gdt_init;
 use drivers::vga::vga_color::{Color, ColorCode};
 
 mod arch;
@@ -16,10 +17,18 @@ mod utils;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-
-    println_color!(ColorCode::new(Color::LightCyan,Color::Black), "Welcome on NoName Kernel {}-{}", env!("CARGO_PKG_VERSION"), env!("GIT_HASH"));
+    println_color!(
+        ColorCode::new(Color::LightCyan, Color::Black),
+        "Welcome on NoName Kernel {}-{}",
+        env!("CARGO_PKG_VERSION"),
+        env!("GIT_HASH")
+    );
 
     print!("New features soon :)");
+
+    gdt_init();
+
+    print_color!(ColorCode::new(Color::Red, Color::Black), "{}", "Error");
 
     loop {}
 }

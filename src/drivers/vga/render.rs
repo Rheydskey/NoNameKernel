@@ -11,7 +11,7 @@ pub static mut BUFFER: core::lazy::OnceCell<Writer> = OnceCell::new();
 #[doc(hidden)]
 pub fn _print(args: fmt::Arguments) {
     unsafe {
-        BUFFER.get_or_init(|| Writer::default());
+        BUFFER.get_or_init(Writer::default);
 
         if let Some(e) = BUFFER.get_mut() {
             e.write_fmt(args).expect("Error");
@@ -22,7 +22,7 @@ pub fn _print(args: fmt::Arguments) {
 #[doc(hidden)]
 pub fn _print_color(args: fmt::Arguments, color: ColorCode) {
     unsafe {
-        BUFFER.get_or_init(|| Writer::default());
+        BUFFER.get_or_init(Writer::default);
 
         if let Some(e) = BUFFER.get_mut() {
             e.color_code = color;

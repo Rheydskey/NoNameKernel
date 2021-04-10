@@ -9,8 +9,8 @@
 #![feature(abi_x86_interrupt)]
 
 use arch::x86_64::{
-    gdt::gdt::gdt_init,
-    idt::idt::{halt, init_idt},
+    gdt::gdt_init,
+    idt::{halt, init_idt},
 };
 use drivers::vga::vga_color::{Color, ColorCode};
 

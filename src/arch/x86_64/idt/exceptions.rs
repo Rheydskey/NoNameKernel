@@ -1,5 +1,5 @@
-use super::idt::disable_interrupts;
-use super::idt::InterruptStackFrame;
+use super::disable_interrupts;
+use super::InterruptStackFrame;
 use crate::println;
 #[macro_export]
 macro_rules! interrupt {

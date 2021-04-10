@@ -1,13 +1,14 @@
 #![no_std]
 #![no_main]
 #![feature(panic_info_message)]
-#![feature(const_raw_ptr_to_usize_cast)]
 #![feature(const_mut_refs)]
 #![feature(const_raw_ptr_deref)]
-#![feature(const_maybe_uninit_assume_init)]
 #![feature(once_cell)]
+#![feature(fn_traits)]
+#![feature(asm)]
+#![feature(abi_x86_interrupt)]
 
-use arch::x86_64::gdt::gdt::gdt_init;
+use arch::x86_64::{gdt::gdt::gdt_init, idt::idt::{halt, init_idt}};
 use drivers::vga::vga_color::{Color, ColorCode};
 
 mod arch;
@@ -24,11 +25,21 @@ pub extern "C" fn _start() -> ! {
         env!("GIT_HASH")
     );
 
-    print!("New features soon :)");
+    let mut gdt = utils::status::Init::new("GDT");
 
     gdt_init();
 
-    print_color!(ColorCode::new(Color::Red, Color::Black), "{}", "Error");
+    gdt.ok();
+
+    let mut idt = utils::status::Init::new("IDT");
+
+    idt.pending();
+
+    init_idt();
+
+    idt.ok();
+
+    unsafe {halt()};
 
     loop {}
 }

@@ -1,12 +1,23 @@
+#![allow(non_snake_case)]
+
 pub mod exceptions;
+pub mod irq;
+pub mod pit;
+
 
 use core::{mem::size_of, usize};
-
 use bitflags::bitflags;
+use crate::utils::asm::{outb};
 
 const IDT_ENTRIES: usize = 256;
 static mut IDT: [IDTEntry; IDT_ENTRIES] = [IDTEntry::null(); IDT_ENTRIES];
-
+const PIC1_CMD: u16 = 0x20;
+const PIC1_DATA: u16 = 0x21;
+const PIC2_CMD: u16 = 0xA0;
+const PIC2_DATA: u16 = 0xA1;
+const PIC_ENDOFINT: u8 = 0x20;
+const ICW1: u8 = 0x10;
+const ICW4: u8 = 0x01;
 #[repr(C, packed)]
 pub struct IDTPtr {
     size: u16,
@@ -90,7 +101,29 @@ impl IDTEntry {
 pub unsafe fn load_idt(idtptr: *const IDTPtr) {
     asm!("lidt [{}]", in(reg) idtptr, options(nostack));
 }
+
+pub fn load_pic() {
+    outb(PIC1_CMD, ICW1 | ICW4);
+    outb(PIC2_CMD, ICW1 | ICW4);
+
+    outb(PIC1_DATA, 0x20);
+    outb(PIC2_DATA, 0x28);
+
+    outb(PIC1_DATA, 0x04);
+    outb(PIC2_DATA, 0x02);
+
+
+    outb(PIC1_DATA, ICW4);
+    outb(PIC2_DATA, ICW4);
+
+    outb(PIC1_DATA, 0x0);
+    outb(PIC2_DATA, 0x0);
+}
+
 pub fn init_idt() {
+
+    load_pic();
+
     unsafe {
         IDT[0].set_function(exceptions::divide_by_zero);
         IDT[1].set_function(exceptions::debug);
@@ -114,26 +147,25 @@ pub fn init_idt() {
         IDT[20].set_function(exceptions::virtualization);
         IDT[30].set_function(exceptions::security);
 
-        let idt_descriptor = IDTPtr::new(
+        IDT[32].set_function(irq::pit);
+        IDT[33].set_function(irq::keyboard);
+
+        let idtptr = IDTPtr::new(
             ((IDT.len() * size_of::<IDTEntry>()) - 1) as u16,
             (&IDT as *const _) as u64,
         );
-
-        load_idt(&idt_descriptor as *const _);
+        load_idt(&idtptr as *const _);
+        asm!("sti");
     }
 }
 
-#[inline(always)]
-pub unsafe fn disable_interrupts() {
-    asm!("cli");
+#[inline]
+pub fn EOI_pic1() {
+    outb(PIC1_CMD, PIC_ENDOFINT);
 }
 
-#[inline(always)]
-pub unsafe fn _enable_interrupts() {
-    asm!("sti");
-}
-
-#[inline(always)]
-pub unsafe fn halt() {
-    asm!("hlt", options(nomem, nostack));
+#[inline]
+pub fn EOI_pic2() {
+    outb(PIC2_CMD, PIC_ENDOFINT);
+    outb(PIC1_CMD, PIC_ENDOFINT);
 }

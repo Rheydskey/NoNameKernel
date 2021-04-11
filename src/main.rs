@@ -7,11 +7,10 @@
 #![feature(fn_traits)]
 #![feature(asm)]
 #![feature(abi_x86_interrupt)]
+#![allow(dead_code)]
 
-use arch::x86_64::{
-    gdt::gdt_init,
-    idt::{halt, init_idt},
-};
+use arch::x86_64::{gdt::gdt_init, idt::{init_idt, pit::PIT}};
+
 use drivers::vga::vga_color::{Color, ColorCode};
 
 mod arch;
@@ -42,7 +41,11 @@ pub extern "C" fn _start() -> ! {
 
     idt.ok();
 
-    unsafe { halt() };
+    loop {
+        unsafe {let buf =  crate::drivers::vga::render::BUFFER.get_mut().expect("Error");
+        buf.set_position((0, buf._get_position().1))}
+        print!("{:?}", unsafe {&PIT });
 
-    loop {}
+
+    }
 }

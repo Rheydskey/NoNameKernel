@@ -76,7 +76,7 @@ impl Writer {
         }
         self.column_position = 0;
     }
-    pub fn _clear_row(&mut self, row: usize) {
+    pub fn clear_row(&mut self, row: usize) {
         let empty: ScreenChar = ScreenChar {
             ascii_character: b' ',
             color_code: ColorCode::new(Color::Black, Color::Black),
@@ -87,9 +87,20 @@ impl Writer {
     }
     pub fn _clear_screen(&mut self) {
         for i in 0..BUFFER_HEIGHT {
-            self._clear_row(i);
+            self.clear_row(i);
         }
     }
+
+    pub fn set_background(&mut self, color: Color) {
+        for i in 0..BUFFER_HEIGHT {
+            for c in 0..BUFFER_WIDTH {
+                self.set_position((c , i));
+                self.color_code = ColorCode::new(color, color);
+                self.write_char(' ').expect("Error");
+            }
+        }
+    }
+
     pub fn _cursor_at_center(&mut self) {
         let cursor_hor = BUFFER_WIDTH / 2;
         let cursor_ver = BUFFER_HEIGHT / 2;
@@ -102,11 +113,16 @@ impl Writer {
         self.column_position = cursor_hor;
         self.row_position = cursor_ver;
     }
-    pub fn _reset_cursor(&mut self) {
+
+    pub fn reset_cursor(&mut self) {
         self.column_position = 0;
     }
     pub fn _get_position(&self) -> (usize, usize) {
         (self.column_position, self.row_position)
+    }
+    pub fn set_position(&mut self, pos: (usize, usize)) {
+        self.row_position = pos.1;
+        self.column_position = pos.0;
     }
     pub fn _from_position(position: (usize, usize)) -> Self {
         let mut writer = Self::default();

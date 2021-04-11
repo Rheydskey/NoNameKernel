@@ -15,9 +15,6 @@ fn translate(scancode: u8) -> char {
 use crate::print;
 
 pub fn key_handler(scancode: u8) {
-
-    print!("{}", scancode);
-
     let translate = translate(scancode);
 
     if translate != '\0' {

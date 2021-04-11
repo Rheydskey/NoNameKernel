@@ -1,4 +1,5 @@
 use crate::utils::asm::{outb, wait};
+use core::time::Duration;
 
 pub const PIT_FREQ: u64 = 1193182;
 pub static mut PIT: PIT = PIT::default();
@@ -23,6 +24,17 @@ impl PIT {
         self.time_since_last += 1;
     }
 
+    pub fn wait(&self, duration: Duration) {
+        let start_time = self.time_since_last;
+        let seconds = duration.as_secs();
+
+        unsafe {
+            while self.time_since_last < start_time + seconds * 18 {
+                asm!("pause");
+            }
+        }
+    }
+
     #[inline]
     pub fn get_freq(&self) -> u64 {
         PIT_FREQ / self.divisor
@@ -42,4 +54,11 @@ pub fn initpit() {
     unsafe {
         PIT.set_divisor(1193180);
     }
+}
+
+#[macro_export]
+macro_rules! sleep {
+    ($arg:expr) => {
+        unsafe {$crate::arch::x86_64::idt::pit::PIT.wait(core::time::Duration::from_secs($arg)); }
+    };
 }

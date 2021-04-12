@@ -36,6 +36,8 @@ fn translate(scancode: u8) -> Keyboard {
 
 use crate::print;
 
+use super::vga::render::BUFFER;
+
 pub fn key_handler(scancode: u8) {
     let translate = translate(scancode);
 
@@ -50,7 +52,11 @@ pub fn key_handler(scancode: u8) {
             print!(" ")
         }
         Keyboard::Back => {
-            print!("BACK")
+            unsafe {
+                if let Some(e) = BUFFER.get_mut() {
+                    e.removelast();
+                }
+            }
         }
         Keyboard::Shift => {
             print!("SHIFT")

@@ -1,4 +1,4 @@
-use crate::drivers::vga::vga_color::{Color, ColorCode};
+use crate::{drivers::vga::vga_color::{Color, ColorCode}, print};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(C)]
@@ -116,6 +116,21 @@ impl Writer {
 
     pub fn reset_cursor(&mut self) {
         self.column_position = 0;
+    }
+    pub fn removelast(&mut self) {
+        let pos = self._get_position();
+        let toset;
+        if pos.0 == 0 {
+            toset = (BUFFER_WIDTH, pos.1 - 1)
+        } else if pos.1 == 0{
+            toset = (BUFFER_WIDTH, BUFFER_HEIGHT - 1)
+        } else {
+            toset = (pos.0 - 1, pos.1);
+        };
+        print!("{:?}", toset);
+        self.set_position(toset);
+        self.write_char(' ').expect("Error");
+        self.set_position(toset);
     }
     pub fn _get_position(&self) -> (usize, usize) {
         (self.column_position, self.row_position)

@@ -1,14 +1,22 @@
 #[macro_export]
 macro_rules! interrupt {
     ($fnname:tt, unsafe $code:block) => {
-        pub extern "x86-interrupt" fn $fnname(_interrupt: $crate::arch::x86_64::idt::InterruptStackFrame) {
-            {$code}
+        pub extern "x86-interrupt" fn $fnname(
+            _interrupt: $crate::arch::x86_64::idt::InterruptStackFrame,
+        ) {
+            {
+                $code
+            }
         }
     };
 
     ($fnname:tt, $code:block) => {
-        pub extern "x86-interrupt" fn $fnname(_interrupt: $crate::arch::x86_64::idt::InterruptStackFrame) {
-            {$code}
+        pub extern "x86-interrupt" fn $fnname(
+            _interrupt: $crate::arch::x86_64::idt::InterruptStackFrame,
+        ) {
+            {
+                $code
+            }
         }
     };
 }
@@ -18,7 +26,7 @@ use super::InterruptStackFrame;
 #[macro_export]
 macro_rules! expection_interrupt {
     ($arg:ident,  $interruptname:expr) => {
-        crate::interrupt!($arg, {panic!($interruptname)});
+        crate::interrupt!($arg, { panic!($interruptname) });
     };
 }
 
@@ -47,6 +55,13 @@ expection_interrupt!(security, "security");
 use crate::println;
 
 pub extern "x86-interrupt" fn page_fault(interrupt: InterruptStackFrame) {
-    println!("IntPointer : {:#X}, SegPointer: {:#X},StackSeg:{} CodeSeg:{}, Flags: {}", interrupt.instruction_pointer,interrupt.stack_pointer, interrupt.stack_segment,interrupt.code_segment, interrupt.cpu_flags);
+    println!(
+        "IntPointer : {:#X}, SegPointer: {:#X},StackSeg:{} CodeSeg:{}, Flags: {}",
+        interrupt.instruction_pointer,
+        interrupt.stack_pointer,
+        interrupt.stack_segment,
+        interrupt.code_segment,
+        interrupt.cpu_flags
+    );
     panic!("PAGE FAULT");
 }

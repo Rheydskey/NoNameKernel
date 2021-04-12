@@ -94,7 +94,7 @@ impl Writer {
     pub fn set_background(&mut self, color: Color) {
         for i in 0..BUFFER_HEIGHT {
             for c in 0..BUFFER_WIDTH {
-                self.set_position((c , i));
+                self.set_position((c, i));
                 self.color_code = ColorCode::new(color, color);
                 self.write_char(' ').expect("Error");
             }

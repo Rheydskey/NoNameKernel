@@ -1,7 +1,7 @@
+use super::{pit::PIT, EOI_pic1};
 use crate::{interrupt, utils};
-use super::{EOI_pic1, pit::PIT};
 interrupt!(pit, unsafe {
-    unsafe {PIT.add_tick()};
+    unsafe { PIT.add_tick() };
 
     EOI_pic1();
 });

@@ -7,15 +7,15 @@ pub static mut PIT: PIT = PIT::default();
 #[derive(Debug)]
 pub struct PIT {
     pub time_since_last: u64,
-    pub divisor: u64
+    pub divisor: u64,
 }
 
 impl PIT {
     #[inline]
-    pub const fn default() ->  Self {
+    pub const fn default() -> Self {
         Self {
             time_since_last: 0,
-            divisor: 65535
+            divisor: 65535,
         }
     }
 
@@ -45,7 +45,7 @@ impl PIT {
         outb(0x40, (divisor & 0xFF) as u8);
         wait();
 
-        outb(0x40, ((divisor >> 8) & 0xFF ) as u8);
+        outb(0x40, ((divisor >> 8) & 0xFF) as u8);
         wait();
     }
 }
@@ -59,6 +59,8 @@ pub fn initpit() {
 #[macro_export]
 macro_rules! sleep {
     ($arg:expr) => {
-        unsafe {$crate::arch::x86_64::idt::pit::PIT.wait(core::time::Duration::from_secs($arg)); }
+        unsafe {
+            $crate::arch::x86_64::idt::pit::PIT.wait(core::time::Duration::from_secs($arg));
+        }
     };
 }

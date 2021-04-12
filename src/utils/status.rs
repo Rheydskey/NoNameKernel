@@ -25,16 +25,26 @@ impl<'a> Init<'a> {
 
         let buffer = Writer::_from_position(position);
 
-        Self { buffer, status: Status::UNKNOW, initname }
+        Self {
+            buffer,
+            status: Status::UNKNOW,
+            initname,
+        }
     }
     pub fn pending(&mut self) {
-        match self.status { Status::PENDING => return, _ => (),}
+        match self.status {
+            Status::PENDING => return,
+            _ => (),
+        }
         self.buffer.color_code = ColorCode::new(Color::White, Color::Black);
         self.status = Status::PENDING;
         write!(self.buffer, "[ .. ] {}", &self.initname).expect("Error");
     }
     pub fn ok(&mut self) {
-        match self.status { Status::OK => return, _ => (),}
+        match self.status {
+            Status::OK => return,
+            _ => (),
+        }
         self.buffer.clear_row(self.buffer.row_position);
         self.buffer.reset_cursor();
         self.buffer.color_code = ColorCode::new(Color::Green, Color::Black);
@@ -42,7 +52,10 @@ impl<'a> Init<'a> {
         write!(self.buffer, "[ OK ] {}", &self.initname).expect("Error");
     }
     pub fn _error(&mut self) {
-        match self.status { Status::ERROR => return, _ => (),}
+        match self.status {
+            Status::ERROR => return,
+            _ => (),
+        }
         self.buffer.clear_row(self.buffer.row_position);
         self.buffer.reset_cursor();
         self.buffer.color_code = ColorCode::new(Color::Red, Color::Black);

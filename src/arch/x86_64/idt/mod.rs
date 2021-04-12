@@ -4,10 +4,9 @@ pub mod exceptions;
 pub mod irq;
 pub mod pit;
 
-
-use core::{mem::size_of, usize};
+use crate::utils::asm::outb;
 use bitflags::bitflags;
-use crate::utils::asm::{outb};
+use core::{mem::size_of, usize};
 
 const IDT_ENTRIES: usize = 256;
 static mut IDT: [IDTEntry; IDT_ENTRIES] = [IDTEntry::null(); IDT_ENTRIES];
@@ -112,7 +111,6 @@ pub fn load_pic() {
     outb(PIC1_DATA, 0x04);
     outb(PIC2_DATA, 0x02);
 
-
     outb(PIC1_DATA, ICW4);
     outb(PIC2_DATA, ICW4);
 
@@ -121,7 +119,6 @@ pub fn load_pic() {
 }
 
 pub fn init_idt() {
-
     load_pic();
 
     unsafe {

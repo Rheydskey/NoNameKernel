@@ -23,7 +23,7 @@ fn translate(scancode: u8) -> Keyboard {
         28 => Keyboard::Enter,
         54 | 42 => Keyboard::Shift,
         57 => Keyboard::Space,
-        157 | 224  => Keyboard::Ctrl,
+        157 | 224 => Keyboard::Ctrl,
         _ => {
             if scancode >= KEYBOARDMAP.len() as u8 {
                 Keyboard::Other
@@ -43,12 +43,24 @@ pub fn key_handler(scancode: u8) {
         Keyboard::Key(e) => {
             print!("{}", e)
         }
-        Keyboard::Esc => {print!("ESC")}
-        Keyboard::Space => {print!(" ")}
-        Keyboard::Back => {print!("BACK")}
-        Keyboard::Shift => {print!("SHIFT")}
-        Keyboard::Ctrl => {print!("CTRL")}
+        Keyboard::Esc => {
+            print!("ESC")
+        }
+        Keyboard::Space => {
+            print!(" ")
+        }
+        Keyboard::Back => {
+            print!("BACK")
+        }
+        Keyboard::Shift => {
+            print!("SHIFT")
+        }
+        Keyboard::Ctrl => {
+            print!("CTRL")
+        }
         Keyboard::Other => {}
-        Keyboard::Enter => {print!("\n")}
+        Keyboard::Enter => {
+            print!("\n")
+        }
     }
 }

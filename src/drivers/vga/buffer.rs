@@ -1,4 +1,4 @@
-use crate::{drivers::vga::vga_color::{Color, ColorCode}, print};
+use crate::drivers::vga::vga_color::{Color, ColorCode};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(C)]
@@ -127,7 +127,7 @@ impl Writer {
         } else {
             toset = (pos.0 - 1, pos.1);
         };
-        print!("{:?}", toset);
+
         self.set_position(toset);
         self.write_char(' ').expect("Error");
         self.set_position(toset);

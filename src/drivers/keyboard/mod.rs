@@ -16,14 +16,15 @@ enum Keyboard {
     Other,
 }
 
+
 fn translate(scancode: u8) -> Keyboard {
     match scancode {
-        1 => Keyboard::Esc,
-        14 => Keyboard::Back,
-        28 => Keyboard::Enter,
-        54 | 42 => Keyboard::Shift,
-        57 => Keyboard::Space,
-        157 | 224 => Keyboard::Ctrl,
+        0x01 => Keyboard::Esc,
+        0x0E => Keyboard::Back,
+        0x1C => Keyboard::Enter,
+        0x36 | 0x2A => Keyboard::Shift,
+        0x39 => Keyboard::Space,
+        0x1D => Keyboard::Ctrl,
         _ => {
             if scancode >= KEYBOARDMAP.len() as u8 {
                 Keyboard::Other

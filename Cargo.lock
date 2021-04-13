@@ -30,7 +30,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rewritekernel"
+name = "nonamekernel"
 version = "0.0.1"
 dependencies = [
  "bitflags",

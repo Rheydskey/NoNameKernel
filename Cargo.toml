@@ -1,5 +1,5 @@
 [package]
-name = "rewritekernel"
+name = "nonamekernel"
 version = "0.0.1"
 authors = ["Rheydskey <matgag02@gmail.com>"]
 edition = "2018"

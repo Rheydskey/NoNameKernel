@@ -27,7 +27,8 @@ pub extern "C" fn _start() -> ! {
         env!("GIT_HASH")
     );
 
-    let mut gdt = utils::status::Init::new("GDT");
+    utils::status::Init::new("GDT").wait(gdt_init);
+    utils::status::Init::new("IDT").wait(init_idt);
 
     gdt_init();
 

@@ -62,4 +62,14 @@ impl<'a> Init<'a> {
         self.status = Status::ERROR;
         write!(self.buffer, "[ ERR ] {}", &self.initname).expect("Error");
     }
+
+    pub fn wait<F>(&mut self, callable: F) where F: FnOnce() -> bool {
+        self.pending();
+        let e = callable.call_once(());
+        if e {
+           self.ok();
+        } else {
+           self._error()
+        }
+    }
 }

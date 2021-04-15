@@ -16,7 +16,6 @@ enum Keyboard {
     Other,
 }
 
-
 fn translate(scancode: u8) -> Keyboard {
     match scancode {
         0x01 => Keyboard::Esc,
@@ -52,13 +51,11 @@ pub fn key_handler(scancode: u8) {
         Keyboard::Space => {
             print!(" ")
         }
-        Keyboard::Back => {
-            unsafe {
-                if let Some(e) = BUFFER.get_mut() {
-                    e.removelast();
-                }
+        Keyboard::Back => unsafe {
+            if let Some(e) = BUFFER.get_mut() {
+                e.removelast();
             }
-        }
+        },
         Keyboard::Shift => {
             print!("SHIFT")
         }

@@ -13,7 +13,7 @@ const BUFFER_WIDTH: usize = 80;
 #[derive(Clone, Copy)]
 #[repr(transparent)]
 pub struct Buffer {
-    pub chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
+    pub chars: [[ScreenChar;  BUFFER_WIDTH];  BUFFER_HEIGHT ],
 }
 
 pub struct Writer {
@@ -24,7 +24,8 @@ pub struct Writer {
 }
 
 impl Writer {
-    pub const fn default() -> Self {
+    pub fn default() -> Self {
+        //let buffer_addr = unsafe {crate::STIVALESTRUCT.get().unwrap().framebuffer_addr};
         Writer {
             row_position: 0,
             column_position: 0,
@@ -32,6 +33,17 @@ impl Writer {
             buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
         }
     }
+
+    pub fn new_with_addr(addr: u64) -> Self {
+        //let buffer_addr = unsafe {crate::STIVALESTRUCT.get().unwrap().framebuffer_addr};
+        Writer {
+            row_position: 0,
+            column_position: 0,
+            color_code: ColorCode::new(Color::White, Color::Black),
+            buffer: unsafe { &mut *(addr as *mut Buffer) },
+        }
+    }
+
 
     pub fn write_byte(&mut self, byte: u8) {
         match byte {
@@ -122,7 +134,7 @@ impl Writer {
         let toset;
         if pos.0 == 0 {
             toset = (BUFFER_WIDTH, pos.1 - 1)
-        } else if pos.1 == 0{
+        } else if pos.1 == 0 {
             toset = (BUFFER_WIDTH, BUFFER_HEIGHT - 1)
         } else {
             toset = (pos.0 - 1, pos.1);

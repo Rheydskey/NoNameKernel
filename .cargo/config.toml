@@ -12,5 +12,5 @@ build-std-features = ["compiler-builtins-mem"]
 runner = "bootimage runner"
 
 [package.metadata.bootimage]
-run-command = ["qemu-system-x86_64", "-drive", "format=raw,file={}"]
+run-command = ["qemu-system-x86_64","-serial virtio-serial", "-drive", "format=raw,file={}"]
 build-command = ["build"]

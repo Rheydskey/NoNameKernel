@@ -9,10 +9,8 @@ edition = "2018"
 [features]
 stivale = []
 stivale2 = []
-bootimage = []
+bootimage = ["bootloader"]
 default = ["bootimage"]
-
-
 
 [profile.dev]
 panic = "abort"
@@ -27,5 +25,5 @@ panic = "abort"
 nasm-rs = "0.2.0"
 
 [dependencies]
-bootloader = "0.9.16"
+bootloader = {version = "0.9.16", optional = true}
 bitflags = "1.2.1"

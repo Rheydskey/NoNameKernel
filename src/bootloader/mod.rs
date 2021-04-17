@@ -16,7 +16,7 @@ pub mod start {
 
         #[no_mangle]
         pub unsafe extern "C" fn _start(stivale: &Stivale2Struct) -> ! {
-            print!("{:?}", stivale.bootloader_brand);
+            crate::print!("{:?}", stivale.bootloader_brand);
             kmain();
             loop {}
         }

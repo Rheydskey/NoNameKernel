@@ -1,3 +1,20 @@
+pub const STIVALE2_STRUCT_TAG_PXE_SERVER_INFO: u64 = 0x29d1e96239247032;
+pub const STIVALE2_HEADER_TAG_FRAMEBUFFER_ID: u64 = 0x3ecc1bc43d0f7971;
+pub const STIVALE2_HEADER_TAG_FB_MTRR_ID: u64 = 0x4c7bb07731282e00;
+pub const STIVALE2_HEADER_TAG_SMP_ID: u64 =  0x1ab015085f3273df;
+pub const STIVALE2_HEADER_TAG_5LV_PAGING_ID:u64 = 0x932f477032007e8f;
+pub const STIVALE2_BOOTLOADER_BRAND_SIZE: usize = 64;
+pub const STIVALE2_BOOTLOADER_VERSION_SIZE: usize = 64;
+pub const STIVALE2_STRUCT_TAG_CMDLINE_ID: u64 = 0xe5e76a1b4597a781;
+pub const STIVALE2_STRUCT_TAG_MEMMAP_ID:u64 = 0x2187f79e8612de07;
+pub const STIVALE2_STRUCT_TAG_FRAMEBUFFER_ID: u64 = 0x506461d2950408fa;
+pub const STIVALE2_STRUCT_TAG_FB_MTRR_ID:u64 = 0x6bc1a78ebe871172;
+pub const STIVALE2_STRUCT_TAG_MODULES_ID:u64 = 0x4b6fe466aade04ce;
+pub const STIVALE2_STRUCT_TAG_RSDP_ID: u64 = 0x9e1786930a375e78;
+pub const STIVALE2_STRUCT_TAG_EPOCH_ID: u64 = 0x566a7bed888e1407;
+pub const STIVALE2_HEADER_TAG_FIRMWARE_ID: u64 = 0x359d837855e3858c;
+pub const STIVALE2_STRUCT_TAG_SMP_ID: u64 = 0x34d1d96339647025;
+
 #[repr(C, packed)]
 pub struct Stivale2Tag {
     pub identifier: u64,
@@ -25,9 +42,6 @@ impl Stivale2Header {
     }
 }
 
-pub const STIVALE2_HEADER_TAG_FRAMEBUFFER_ID: u64 = 0x3ecc1bc43d0f7971;
-pub const STIVALE2_HEADER_TAG_FB_MTRR_ID: u64 = 0x4c7bb07731282e00;
-
 #[repr(C, packed)]
 pub struct Stivale2HeaderTagFramebuffer {
     pub tag: Stivale2Tag,
@@ -36,7 +50,6 @@ pub struct Stivale2HeaderTagFramebuffer {
     pub framebuffer_bpp: u16
 }
 
-pub const STIVALE2_HEADER_TAG_SMP_ID: u64 =  0x1ab015085f3273df;
 
 #[repr(C, packed)]
 pub struct Stivale2HeaderTagSmp {
@@ -44,11 +57,6 @@ pub struct Stivale2HeaderTagSmp {
     flags: u64,
 }
 
-pub const STIVALE2_HEADER_TAG_5LV_PAGING_ID:u64 = 0x932f477032007e8f;
-
-
-pub const STIVALE2_BOOTLOADER_BRAND_SIZE: usize = 64;
-pub const STIVALE2_BOOTLOADER_VERSION_SIZE: usize = 64;
 
 #[repr(C, packed)]
 pub struct Stivale2Struct {
@@ -57,7 +65,7 @@ pub struct Stivale2Struct {
     tags: u64
 }
 
-pub const STIVALE2_STRUCT_TAG_CMDLINE_ID: u64 = 0xe5e76a1b4597a781;
+
 
 #[repr(C, packed)]
 pub struct Stivale2StructTagCmdline {
@@ -65,7 +73,6 @@ pub struct Stivale2StructTagCmdline {
     cmdline: u64,
 }
 
-pub const STIVALE2_STRUCT_TAG_MEMMAP_ID:u64 = 0x2187f79e8612de07;
 
 #[repr(C)]
 pub enum Stivale2Mmap {
@@ -93,8 +100,6 @@ pub struct Stivale2StructTagMemmap {
     memmap: [Stivale2MmapEntry]
 }
 
-pub const STIVALE2_STRUCT_TAG_FRAMEBUFFER_ID: u64 = 0x506461d2950408fa;
-
 #[repr(C)]
 pub enum Stivale2Fbuf {
     MmodelRGB = 1
@@ -117,8 +122,6 @@ pub struct Stivale2StructTagFramebuffer {
     blue_mask_shift: u8,
 }
 
-pub const STIVALE2_STRUCT_TAG_FB_MTRR_ID:u64 = 0x6bc1a78ebe871172;
-pub const STIVALE2_STRUCT_TAG_MODULES_ID:u64 = 0x4b6fe466aade04ce;
 
 #[repr(C, packed)]
 pub struct Stivale2Module {
@@ -134,7 +137,6 @@ pub struct Stivale2StructTagModules {
     modules: [Stivale2Module]
 }
 
-pub const STIVALE2_STRUCT_TAG_RSDP_ID: u64 = 0x9e1786930a375e78;
 
 #[repr(C, packed)]
 pub struct Stivale2StructTagRspd {
@@ -142,7 +144,6 @@ pub struct Stivale2StructTagRspd {
     rspd: u64
 }
 
-pub const STIVALE2_STRUCT_TAG_EPOCH_ID: u64 = 0x566a7bed888e1407;
 
 #[repr(C, packed)]
 pub struct Stivale2StructTagEpoch {
@@ -150,7 +151,6 @@ pub struct Stivale2StructTagEpoch {
     epoch: u64
 }
 
-pub const STIVALE2_HEADER_TAG_FIRMWARE_ID: u64 = 0x359d837855e3858c;
 
 #[repr(C, packed)]
 pub struct Stivale2StructTagFirmware {
@@ -158,7 +158,6 @@ pub struct Stivale2StructTagFirmware {
     flags: u64
 }
 
-const STIVALE2_STRUCT_TAG_SMP_ID: u64 = 0x34d1d96339647025;
 
 #[repr(C, packed)]
 pub struct Stivale2SmpInfo {
@@ -178,8 +177,6 @@ pub struct Stivale2StructTagSmp {
     cpu_count: u64,
     smp_info: [Stivale2SmpInfo]
 }
-
-pub const STIVALE2_STRUCT_TAG_PXE_SERVER_INFO: u64 = 0x29d1e96239247032;
 
 #[repr(C, packed)]
 pub struct Stivale2StructTagPxeServerInfo {

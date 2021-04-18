@@ -24,18 +24,7 @@ pub struct Writer {
 }
 
 impl Writer {
-    pub fn default() -> Self {
-        //let buffer_addr = unsafe {crate::STIVALESTRUCT.get().unwrap().framebuffer_addr};
-        Writer {
-            row_position: 0,
-            column_position: 0,
-            color_code: ColorCode::new(Color::White, Color::Black),
-            buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
-        }
-    }
-
     pub fn new_with_addr(addr: u64) -> Self {
-        //let buffer_addr = unsafe {crate::STIVALESTRUCT.get().unwrap().framebuffer_addr};
         Writer {
             row_position: 0,
             column_position: 0,

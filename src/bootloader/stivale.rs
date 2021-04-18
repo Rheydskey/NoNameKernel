@@ -1,6 +1,7 @@
-
+const STIVALE_FBUF_MMODEL_RGB: u32 = 1;
 
 #[repr(C, packed)]
+#[derive(Clone, Copy)]
 pub struct StivaleHeader {
     pub stack: *const u8,
     pub flags: u16,
@@ -58,8 +59,6 @@ pub struct StivaleMmapEntry {
     entry_type: u32,
     unused: u32,
 }
-
-const STIVALE_FBUF_MMODEL_RGB: u32 = 1;
 
 #[repr(C, packed)]
 pub struct StivaleStruct {

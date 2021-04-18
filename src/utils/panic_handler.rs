@@ -2,10 +2,11 @@ use crate::drivers::vga::buffer::Writer;
 use crate::drivers::vga::vga_color::{Color, ColorCode};
 use core::fmt::Write;
 use core::panic::PanicInfo;
+use crate::bootloader::BUFFER_ADDR;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
-    let mut buffer = Writer::default();
+    let mut buffer = Writer::new_with_addr(unsafe {BUFFER_ADDR});
 
     let panic_message = match _info.message() {
         Some(arg) => arg.as_str().unwrap_or("No Message Error"),

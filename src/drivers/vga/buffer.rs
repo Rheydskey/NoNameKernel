@@ -7,7 +7,7 @@ pub struct ScreenChar {
     pub color_code: ColorCode,
 }
 
-const BUFFER_HEIGHT: usize = 20;
+const BUFFER_HEIGHT: usize = 40;
 const BUFFER_WIDTH: usize = 80;
 
 #[derive(Clone, Copy)]
@@ -119,7 +119,7 @@ impl Writer {
         self.column_position = 0;
     }
     pub fn removelast(&mut self) {
-        let pos = self._get_position();
+        let pos = self.get_position();
         let toset;
         if pos.0 == 0 {
             toset = (BUFFER_WIDTH, pos.1 - 1)
@@ -133,15 +133,15 @@ impl Writer {
         self.write_char(' ').expect("Error");
         self.set_position(toset);
     }
-    pub fn _get_position(&self) -> (usize, usize) {
+    pub fn get_position(&self) -> (usize, usize) {
         (self.column_position, self.row_position)
     }
     pub fn set_position(&mut self, pos: (usize, usize)) {
         self.row_position = pos.1;
         self.column_position = pos.0;
     }
-    pub fn _from_position(position: (usize, usize)) -> Self {
-        let mut writer = Self::default();
+    pub fn _from_position(addr: u64, position: (usize, usize)) -> Self {
+        let mut writer = Self::new_with_addr(addr);
         writer.row_position = position.1;
         writer.column_position = position.0;
         writer

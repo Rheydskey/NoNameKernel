@@ -1,3 +1,5 @@
+pub static mut BUFFER_ADDR: u64 = 0;
+
 #[cfg(feature = "stivale")]
 pub mod stivale;
 
@@ -9,13 +11,14 @@ pub mod start {
     pub mod stivale2 {
         use crate::bootloader::stivale2::{Stivale2Header, Stivale2Struct};
         use crate::{STACK, kmain};
+        use crate::bootloader::BUFFER_ADDR;
 
         #[used]
         #[link_section = ".stivale2hdr"]
         static STIVALE2: Stivale2Header = Stivale2Header::new(STACK[0] as *const u8);
 
         #[no_mangle]
-        pub unsafe extern "C" fn _start(stivale: &Stivale2Struct) -> ! {
+        pub fn _start(stivale: &Stivale2Struct) -> ! {
             crate::print!("{:?}", stivale.bootloader_brand);
             kmain();
             loop {}
@@ -24,34 +27,37 @@ pub mod start {
 
     #[cfg(feature = "stivale")]
     pub mod stivale {
-        use crate::bootloader::stivale::{StivaleStruct, StivaleHeader};
-        use core::mem::transmute;
+        use crate::{bootloader::stivale::{StivaleStruct, StivaleHeader}, drivers::vga::render::BUFFER};
         use crate::{kmain, STACK};
-        use core::lazy::OnceCell;
         use crate::drivers::vga::buffer::Writer;
+        use crate::bootloader::BUFFER_ADDR;
 
-        #[used]
         #[link_section = ".stivalehdr"]
         static STIVALEHDR: StivaleHeader = StivaleHeader::new(&STACK[0] as *const u8);
 
         #[no_mangle]
-        pub extern "C" fn _start(stivale: &StivaleStruct) -> ! {
-
-            let mut buffer = Writer::new_with_addr(stivale.framebuffer_addr);
-
-
-            kmain();
-            loop {
-                buffer.write_byte(0xff)
-            }
+        pub fn _start(stivale: &StivaleStruct) -> ! {
+            unsafe {BUFFER_ADDR = stivale.framebuffer_addr};
+            unsafe {BUFFER.get_or_init(|| Writer::new_with_addr(unsafe {BUFFER_ADDR}))};
+            let buf = unsafe {BUFFER.get_mut().unwrap()};
+            for _ in 0..1000 {
+                buf.write_byte(0xFF)
+            };
+            //kmain();
+            loop {}
         }
     }
     #[cfg(feature = "bootimage")]
     mod bootimage {
         use crate::kmain;
+        use crate::drivers::vga::buffer::Writer;
+        use crate::drivers::vga::render::BUFFER;
+        use crate::bootloader::BUFFER_ADDR;
 
         #[no_mangle]
-        pub extern "C" fn _start() -> ! {
+        pub fn _start() -> ! {
+            unsafe  {BUFFER_ADDR = 0xb8000};
+            unsafe {BUFFER.get_or_init(|| Writer::new_with_addr(0xb8000))};
             kmain();
             loop {}
         }

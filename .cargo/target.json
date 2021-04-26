@@ -19,7 +19,7 @@
             "-Wl,-z,noexecstack",
             "-m64",
             "-T",
-            "/media/HDD/Workfolder/RUST/RheydOS/linker.ld"
+            "linker.ld"
         ]
     }
 }

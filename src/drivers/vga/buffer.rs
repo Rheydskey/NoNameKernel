@@ -77,18 +77,18 @@ impl Writer {
         }
         self.column_position = 0;
     }
-    pub fn clear_row(&mut self, row: usize) {
+    pub fn clear_line(&mut self, line: usize) {
         let empty: ScreenChar = ScreenChar {
             ascii_character: b' ',
             color_code: ColorCode::new(Color::Black, Color::Black),
         };
         for col in 0..BUFFER_WIDTH {
-            self.buffer.chars[row][col] = empty;
+            self.buffer.chars[line][col] = empty;
         }
     }
     pub fn _clear_screen(&mut self) {
         for i in 0..BUFFER_HEIGHT {
-            self.clear_row(i);
+            self.clear_line(i);
         }
     }
 

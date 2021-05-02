@@ -8,10 +8,9 @@ use crate::bootloader::BUFFER_ADDR;
 fn panic(_info: &PanicInfo) -> ! {
     let mut buffer = Writer::new_with_addr(unsafe {BUFFER_ADDR});
 
-    let panic_message = match _info.message() {
-        Some(arg) => arg.as_str().unwrap_or("No Message Error"),
-        None => "No message Error",
-    };
+    let panic_message = if let Some(arg) = _info.message() {
+        arg.as_str().unwrap_or("No Message Error")
+    } else {"No Message Error"};
     let location = match _info.location() {
         Some(e) => e,
         None => {

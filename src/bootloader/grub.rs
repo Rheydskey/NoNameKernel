@@ -1,59 +1,59 @@
-const MULTIBOOT_HEADER: u32 = 1;
-const MULTIBOOT_SEARCH: u32 = 32768;
-const MULTIBOOT_HEADER_ALIGN: u8 = 8;
-const MULTIBOOT2_HEADER_MAGIC: u32 = 0xe85250d6;
-const MULTIBOOT2_BOOTLOADER_MAGIC: u32 = 0x36d76289;
-const MULTIBOOT_MOD_ALIGN: u32 = 0x00001000;
-const MULTIBOOT_INFO_ALIGN: u32 = 0x00000008;
-const MULTIBOOT_TAG_ALGIN: u32 = 8;
-const MULTIBOOT_TAG_TYPE_END: u32 = 0;
-const MULTIBOOT_TAG_TYPE_CMDLINE: u32 = 1;
-const MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME: u32 = 2;
-const MULTIBOOT_TAG_TYPE_MODULE: u32 = 3;
-const MULTIBOOT_TAG_TYPE_BASIC_MEMINFO: u32 = 4;
-const MULTIBOOT_TAG_TYPE_BASIC_BOOTDEV: u32 = 5;
-const MULTIBOOT_TAG_TYPE_BASIC_MMAP: u32 = 6;
-const MULTIBOOT_TAG_TYPE_BASIC_VBE: u32 = 7;
-const MULTIBOOT_TAG_TYPE_BASIC_FRAMEBUFFER: u32 = 8;
-const MULTIBOOT_TAG_TYPE_ELF_SECTIONS: u32 = 9;
-const MULTIBOOT_TAG_TYPE_APM: u32 = 10;
-const MULTIBOOT_HEADER_TAG_END: u32 = 0;
-const MULTIBOOT_HEADER_TAG_INFORMATION_REQUEST: u32 = 0;
-const MULTIBOOT_HEADER_TAG_INFORMATION_ADDRESS: u32 = 0;
-const MULTIBOOT_HEADER_TAG_ENTRY_ADDRESS: u32 = 0;
-const MULTIBOOT_HEADER_TAG_CONSOLE_FLAGS: u32 = 0;
-const MULTIBOOT_HEADER_TAG_FRAMEBUFFER: u32 = 0;
-const MULTIBOOT_HEADER_TAG_MODULE_ALIGN: u32 = 0;
-const MULTIBOOT_HEADER_ARCHITECTURE_I386: u32 = 0;
-const MULTIBOOT_HEADER_ARCHITECTURE_MIPS32: u32 = 0;
-const MULTIBOOT_HEADER_TAG_OPTIONAL: u32 = 0;
-const MULTIBOOT_CONSOLE_FLAGS_CONSOLE_REQUIRED: u32 = 0;
-const MULTIBOOT_CONSOLE_FLAGS_EGA_TEXT_SUPPORTED: u32 = 0;
-const MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED: u32 = 0;
-const MULTIBOOT_FRAMEBUFFER_TYPE_RGB: u32 = 1;
-const MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT: u32 = 2;
+pub const MULTIBOOT_HEADER: u32 = 1;
+pub const MULTIBOOT_SEARCH: u32 = 32768;
+pub const MULTIBOOT_HEADER_ALIGN: u8 = 8;
+pub const MULTIBOOT2_HEADER_MAGIC: u32 = 0xe85250d6;
+pub const MULTIBOOT2_BOOTLOADER_MAGIC: u32 = 0x36d76289;
+pub const MULTIBOOT_MOD_ALIGN: u32 = 0x00001000;
+pub const MULTIBOOT_INFO_ALIGN: u32 = 0x00000008;
+pub const MULTIBOOT_TAG_ALGIN: u32 = 8;
+pub const MULTIBOOT_TAG_TYPE_END: u32 = 0;
+pub const MULTIBOOT_TAG_TYPE_CMDLINE: u32 = 1;
+pub const MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME: u32 = 2;
+pub const MULTIBOOT_TAG_TYPE_MODULE: u32 = 3;
+pub const MULTIBOOT_TAG_TYPE_BASIC_MEMINFO: u32 = 4;
+pub const MULTIBOOT_TAG_TYPE_BASIC_BOOTDEV: u32 = 5;
+pub const MULTIBOOT_TAG_TYPE_BASIC_MMAP: u32 = 6;
+pub const MULTIBOOT_TAG_TYPE_BASIC_VBE: u32 = 7;
+pub const MULTIBOOT_TAG_TYPE_BASIC_FRAMEBUFFER: u32 = 8;
+pub const MULTIBOOT_TAG_TYPE_ELF_SECTIONS: u32 = 9;
+pub const MULTIBOOT_TAG_TYPE_APM: u32 = 10;
+pub const MULTIBOOT_HEADER_TAG_END: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_INFORMATION_REQUEST: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_INFORMATION_ADDRESS: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_ENTRY_ADDRESS: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_CONSOLE_FLAGS: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_FRAMEBUFFER: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_MODULE_ALIGN: u32 = 0;
+pub const MULTIBOOT_HEADER_ARCHITECTURE_I386: u32 = 0;
+pub const MULTIBOOT_HEADER_ARCHITECTURE_MIPS32: u32 = 0;
+pub const MULTIBOOT_HEADER_TAG_OPTIONAL: u32 = 0;
+pub const MULTIBOOT_CONSOLE_FLAGS_CONSOLE_REQUIRED: u32 = 0;
+pub const MULTIBOOT_CONSOLE_FLAGS_EGA_TEXT_SUPPORTED: u32 = 0;
+pub const MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED: u32 = 0;
+pub const MULTIBOOT_FRAMEBUFFER_TYPE_RGB: u32 = 1;
+pub const MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT: u32 = 2;
 
-struct MultibootHeader {
-    magic: u32,
-    architecture: u32,
-    header_lenght: u32,
-    checksum: u32
+pub struct MultibootHeader {
+    pub magic: u32,
+    pub architecture: u32,
+    pub header_lenght: u32,
+    pub checksum: u32
 }
 
-struct MultibootHeaderTag {
+pub struct MultibootHeaderTag {
     tag_type: u16,
     flags: u16,
     size: u32
 }
 
-struct MultibootHeaderTagInformationRequest {
+pub struct MultibootHeaderTagInformationRequest {
     information_type: u16,
     flags: u16,
     size: u16,
     request: [u32; 0]
 }
 
-struct MultibootHeaderTagAddress {
+pub struct MultibootHeaderTagAddress {
     address_type: u16,
     flags: u16,
     size: u32,
@@ -63,14 +63,14 @@ struct MultibootHeaderTagAddress {
     bss_end_addr: u32
 }
 
-struct MultibootHeaderTagEntryAddress {
+pub struct MultibootHeaderTagEntryAddress {
     address_type: u16,
     flags: u16,
     size: u32,
     entry_addr: u32
 }
 
-struct MultibootHeaderTagFramebuffer {
+pub struct MultibootHeaderTagFramebuffer {
     framebuffer_type : u16,
     flags: u16,
     size: u32,
@@ -79,7 +79,7 @@ struct MultibootHeaderTagFramebuffer {
     detph: u32
 }
 
-struct MultibootHeaderTagModuleAlign {
+pub struct MultibootHeaderTagModuleAlign {
     module_type: u16,
     flags: u16,
     size: u32,
@@ -89,14 +89,14 @@ struct MultibootHeaderTagModuleAlign {
 }
 
 #[derive(Clone, Copy)]
-struct MultibootColor {
+pub struct MultibootColor {
     red: u8,
     green: u8,
     blue: u8
 }
 
 #[repr(C, packed)]
-struct MultibootMmapEntry {
+pub struct MultibootMmapEntry {
     addr: u64,
     len: u64,
     zero: u32
@@ -104,18 +104,18 @@ struct MultibootMmapEntry {
 
 type MultibootMemoryMap = MultibootMmapEntry;
 
-struct MultibootTag {
+pub struct MultibootTag {
     tag_type: u32,
     size: u32
 }
 
-struct MultibootTagString {
+pub struct MultibootTagString {
     tag_type: u32,
     size: u32,
     string: [u32; 0]
 }
 
-struct MultibootTagModule {
+pub struct MultibootTagModule {
     module_type: u32,
     size: u32,
     mod_start: u32,
@@ -123,14 +123,14 @@ struct MultibootTagModule {
     cmdline: [u8;0]
 }
 
-struct MultibootTagBasicMeminfo {
+pub struct MultibootTagBasicMeminfo {
     meminfo_type: u32,
     size: u32,
     mem_lower: u32,
     mem_upper: u32,
 }
 
-struct MultibootTagBootdev {
+pub struct MultibootTagBootdev {
     tage_type: u32,
     size: u32,
     biosdev: u32,
@@ -138,7 +138,7 @@ struct MultibootTagBootdev {
     part: u32
 }
 
-struct MultibootTagMmap {
+pub struct MultibootTagMmap {
     mmap_type: u32,
     size: u32,
     entry_size: u32,
@@ -146,16 +146,16 @@ struct MultibootTagMmap {
     entries: [MultibootMmapEntry; 0]
 }
 
-struct MultibootVbeInfoBlock {
+pub struct MultibootVbeInfoBlock {
     external_specification: [u8;512]
 }
 
 
-struct MultibootVbeModeInfoBlock {
+pub struct MultibootVbeModeInfoBlock {
     external_specification: [u8;256]
 }
 
-struct MultibootTagVBE {
+pub struct MultibootTagVBE {
     vbe_type: u32,
     vbe_size: u32,
     vbe_mode: u16,
@@ -166,7 +166,7 @@ struct MultibootTagVBE {
     vbe_mode_info: MultibootVbeModeInfoBlock
 }
 
-struct MultibootTagFramebufferCommon {
+pub struct MultibootTagFramebufferCommon {
     tagframebuffer_type: u32,
     size: u32,
     framebuffer_addr: u64,
@@ -179,9 +179,9 @@ struct MultibootTagFramebufferCommon {
 }
 
 impl MultibootTagFramebufferCommon {
-    const MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED: u32 = MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED;
-    const MULTIBOOT_FRAMEBUFFER_TYPE_RGB: u32 = MULTIBOOT_FRAMEBUFFER_TYPE_RGB;
-    const MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT: u32 = MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT;
+    pub const MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED: u32 = MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED;
+    pub const MULTIBOOT_FRAMEBUFFER_TYPE_RGB: u32 = MULTIBOOT_FRAMEBUFFER_TYPE_RGB;
+    pub const MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT: u32 = MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT;
 }
 
 #[derive(Clone, Copy)]
@@ -205,12 +205,12 @@ union MultibootFramebufferOnion {
     framebuffer_palette: MultibootFramebufferMaskField
 }
 
-struct MultibootTagFramebuffer {
+pub struct MultibootTagFramebuffer {
     common: MultibootTagFramebufferCommon,
     framebuffer: MultibootFramebufferOnion
 }
 
-struct MultibootTagElfSections {
+pub struct MultibootTagElfSections {
     elf_type: u32,
     size: u32,
     num: u32,
@@ -219,7 +219,7 @@ struct MultibootTagElfSections {
     sections: [u8; 0]
 }
 
-struct MultibootTagApm {
+pub struct MultibootTagApm {
     apm_type: u32,
     size: u32,
     version: u32,

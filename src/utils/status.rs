@@ -1,6 +1,5 @@
-use crate::drivers::vga::buffer::Writer;
-use crate::Color;
-use crate::ColorCode;
+use crate::drivers::vga::vga_color::Color;
+use crate::drivers::vga::vga_color::ColorCode;
 use core::fmt::Write;
 use crate::drivers::vga::render::BUFFER;
 
@@ -37,7 +36,7 @@ impl<'a> Init<'a> {
             Status::PENDING => return,
             _ => (),
         }
-        
+
         buffer.color_code = ColorCode::new(Color::White, Color::Black);
         self.status = Status::PENDING;
         write!(buffer, "[ .. ] {}", &self.initname).expect("Error");

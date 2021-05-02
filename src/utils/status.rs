@@ -49,22 +49,23 @@ impl<'a> Init<'a> {
             Status::OK => return,
             _ => (),
         }
+
         buffer.set_position(self.position);
-        buffer.clear_row(self.position.0);
+        buffer.clear_line(self.position.1);
         buffer.color_code = ColorCode::new(Color::Green, Color::Black);
         self.status = Status::OK;
         write!(buffer, "[ OK ] {}", &self.initname).expect("Error");
+
     }
-    pub fn _error(&mut self) {
+    pub fn error(&mut self) {
         let buffer = if let Some(e) = unsafe {BUFFER.get_mut()} {e} else {return;};
 
         match self.status {
             Status::ERROR => return,
             _ => (),
         }
-
         buffer.set_position(self.position);
-        buffer.clear_row(self.position.0);
+        buffer.clear_line(self.position.1);
         buffer.color_code = ColorCode::new(Color::Red, Color::Black);
         self.status = Status::ERROR;
         write!(buffer, "[ ERR ] {}", &self.initname).expect("Error");

@@ -8,9 +8,7 @@ pub fn kmain() {
         env!("CARGO_PKG_VERSION"),
         env!("GIT_HASH")
     );
-    let mut e = utils::status::Init::new("Test");
-    e.pending();
-    e.ok();
+
     utils::status::Init::new("GDT").wait(gdt_init);
     utils::status::Init::new("IDT").wait(init_idt);
 }

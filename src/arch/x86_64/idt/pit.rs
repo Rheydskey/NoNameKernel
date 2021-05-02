@@ -59,7 +59,12 @@ pub fn initpit() {
 
 #[macro_export]
 macro_rules! sleep {
-    ($arg:expr) => {
+    ($arg:literal) => {
+        unsafe {
+            $crate::arch::x86_64::idt::pit::PIT.wait(core::time::Duration::from_secs($arg));
+        }
+    };
+    ($arg:literal) => {
         unsafe {
             $crate::arch::x86_64::idt::pit::PIT.wait(core::time::Duration::from_secs_f32($arg));
         }

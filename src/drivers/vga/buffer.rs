@@ -140,12 +140,6 @@ impl Writer {
         self.row_position = pos.1;
         self.column_position = pos.0;
     }
-    pub fn _from_position(addr: u64, position: (usize, usize)) -> Self {
-        let mut writer = Self::new_with_addr(addr);
-        writer.row_position = position.1;
-        writer.column_position = position.0;
-        writer
-    }
 }
 use core::fmt::{Result as WriteResult, Write};
 

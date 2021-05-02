@@ -118,7 +118,7 @@ pub fn load_pic() {
     outb(PIC2_DATA, 0x0);
 }
 
-pub fn init_idt() -> bool {
+pub fn init_idt<'a>() -> Result<(), &'a str> {
     load_pic();
 
     unsafe {
@@ -153,7 +153,7 @@ pub fn init_idt() -> bool {
         );
         load_idt(&idtptr as *const _);
         asm!("sti");
-        true
+        Ok(())
     }
 }
 

@@ -57,7 +57,7 @@ extern "C" {
     fn load_gdt(gdt_descriptor: *const GDTPtr);
 }
 
-pub fn gdt_init() -> bool {
+pub fn gdt_init<'a>() -> Result<(), &'a str> {
     unsafe {
         GDT[0] = GDTEntry::new(0, 0, 0, 0x00, 0x00, 0);
         GDT[1] = GDTEntry::new(0, 0, 0, 0x9A, 0xA0, 0);
@@ -72,6 +72,6 @@ pub fn gdt_init() -> bool {
 
         load_gdt(&gdt_descriptor as *const _);
 
-        true
+        Ok(())
     }
 }

@@ -25,3 +25,4 @@ nasm-rs = "0.2.0"
 [dependencies]
 bootloader = {version = "0.9.16", optional = true}
 bitflags = "1.2.1"
+bit_field = "0.10.1"

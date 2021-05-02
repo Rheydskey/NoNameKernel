@@ -71,13 +71,14 @@ impl<'a> Init<'a> {
         write!(buffer, "[ ERR ] {}", &self.initname).expect("Error");
     }
 
-    pub fn wait<F>(&mut self, callable: F) where F: FnOnce() -> bool {
+    pub fn wait<F>(&mut self, callable: F) where F: FnOnce() -> Result<(), &'a str> {
         self.pending();
         let e = callable.call_once(());
-        if e {
+        if let Ok(_) = e {
            self.ok();
-        } else {
-           self._error()
+        } else if let Err(msg) = e {
+           self.error();
+           panic!("{}", msg)
         }
     }
 }

@@ -13,6 +13,7 @@
     "disable-redzone": true,
     "features": "-mmx,-sse,+soft-float",
     "vendor": "unknown",
+    "morestack": false,
     "pre-link-args": {
         "gcc": [
             "-Wl,--as-needed",

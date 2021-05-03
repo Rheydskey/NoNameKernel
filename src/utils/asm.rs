@@ -17,7 +17,7 @@ pub fn outb(port: u16, value: u8) {
 }
 
 #[inline]
-pub fn _outl(port: u16, value: u32) {
+pub fn outl(port: u16, value: u32) {
     unsafe {
         asm!(
             "out dx, eax",
@@ -28,7 +28,7 @@ pub fn _outl(port: u16, value: u32) {
 }
 
 #[inline]
-pub fn _inl(port: u16) -> u32 {
+pub fn inl(port: u16) -> u32 {
     let ret: u32;
     unsafe {
         asm!(

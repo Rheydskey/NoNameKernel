@@ -29,7 +29,7 @@ enum Com {
 const PORT: u16 = Com::COM1 as u16;
 
 
-pub fn init_serial() -> u8 {
+pub fn init_serial<'a>() -> Result<u8, &'a str> {
     let com = Com::COM1 as u32;
 
     outb((com + 1) as u16, 0x00);
@@ -42,11 +42,11 @@ pub fn init_serial() -> u8 {
     outb((com + 4) as u16, 0x01);
 
     if inb(PORT + 0) != 0xAE {
-        return 1;
+        return Ok(1);
     }
 
     outb(PORT + 4, 0x0F);
-    return 0;
+    return Ok(0);
 }
 
 pub fn serial_received() -> u8 {
@@ -67,4 +67,10 @@ pub fn write_serial(a: char) {
     while is_transmit_empty() == 0 {}
 
     outb(PORT, a as u8);
+}
+
+pub fn write_serial_str(a: &str) {
+    for i in a.as_bytes() {
+        write_serial(*i as char);
+    }
 }

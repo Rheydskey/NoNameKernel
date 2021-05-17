@@ -54,7 +54,6 @@ impl<'a> Init<'a> {
         buffer.color_code = ColorCode::new(Color::Green, Color::Black);
         self.status = Status::OK;
         write!(buffer, "[ OK ] {}", &self.initname).expect("Error");
-
     }
     pub fn error(&mut self) {
         let buffer = if let Some(e) = unsafe {BUFFER.get_mut()} {e} else {return;};
@@ -70,7 +69,7 @@ impl<'a> Init<'a> {
         write!(buffer, "[ ERR ] {}", &self.initname).expect("Error");
     }
 
-    pub fn wait<F>(&mut self, callable: F) where F: FnOnce() -> Result<(), &'a str> {
+    pub fn wait<F, E>(&mut self, callable: F) where F: FnOnce() -> Result<E, &'a str> {
         self.pending();
         let e = callable.call_once(());
         if let Ok(_) = e {

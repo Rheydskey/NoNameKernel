@@ -1,14 +1,11 @@
-[package]
-name = "nonamekernel"
-version = "0.0.1"
-authors = ["Rheydskey <matgag02@gmail.com>"]
-edition = "2018"
-
-[features]
-stivale2 = []
-bootimage = ["bootloader"]
-grub = []
-default = ["bootimage"]
+[workspace]
+members = [
+    "nmk_archs",
+    "nmk_drivers",
+    "nmk_utils",
+    "nmk_status",
+    "nonamekernel",
+]
 
 [profile.dev]
 panic = "abort"
@@ -18,11 +15,3 @@ codegen-units = 1
 lto = true
 opt-level = 'z'
 panic = "abort"
-
-[build-dependencies]
-nasm-rs = "0.2.0"
-
-[dependencies]
-bootloader = {version = "0.9.16", optional = true}
-bitflags = "1.2.1"
-bit_field = "0.10.1"

@@ -13,14 +13,13 @@
     "disable-redzone": true,
     "features": "-mmx,-sse,+soft-float",
     "vendor": "unknown",
-    "morestack": false,
     "pre-link-args": {
         "gcc": [
             "-Wl,--as-needed",
             "-Wl,-z,noexecstack",
             "-m64",
             "-T",
-            "linker.ld"
+            ".cargo/linker.ld"
         ]
     }
 }

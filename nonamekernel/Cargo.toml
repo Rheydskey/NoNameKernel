@@ -9,7 +9,8 @@ edition = "2021"
 nasm-rs = "0.2.0"
 
 [dependencies]
-stivale-boot = "0.2.6"
+stivale-boot = "0.3.1"
 nmk_archs = { path = "../nmk_archs" }
 nmk_drivers = { path = "../nmk_drivers" }
 nmk_status = { path = "../nmk_status" }
+rustc-demangle = "0.1"

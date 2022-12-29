@@ -41,7 +41,7 @@ impl Pit {
     }
 
     #[inline]
-    pub unsafe fn set_divisor(&self, divisor: u64) {
+    pub unsafe fn set_divisor(divisor: u64) {
         outb(0x40, (divisor & 0xFF) as u8);
         wait();
 
@@ -52,7 +52,7 @@ impl Pit {
 
 pub fn initpit() {
     unsafe {
-        PIT.set_divisor(1193180);
+        Pit::set_divisor(1193180);
     }
 }
 

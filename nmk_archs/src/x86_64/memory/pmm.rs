@@ -1,7 +1,7 @@
-use core::{lazy::OnceCell, usize};
+use core::usize;
 
-static mut BITMAP: OnceCell<&mut [u8]> = OnceCell::new();
-static mut BITMAP_SIZE: OnceCell<&mut [u8]> = OnceCell::new();
+const BITMAP_SIZE: usize = 2048;
+static mut BITMAP: &mut [u8] = &mut [0; BITMAP_SIZE];
 static mut MEMORY_END: u64 = 0xFFFF;
 static mut NEXT_FREE_PAGE: i32 = 0;
 
@@ -24,14 +24,12 @@ pub fn bitmap_set_bit(page_addr: u64) {
     let byte = get_bitmap_array_index(page_addr);
 
     unsafe {
-        BITMAP.get_mut().unwrap()[byte as usize] |= 1 << bit;
+        BITMAP[byte as usize] |= 1 << bit;
     }
 }
 
 pub fn bitmap_clear_bit(page_addr: u64) {
     let bit = get_bitmap_bit_index(page_addr);
     let byte = get_bitmap_bit_index(page_addr);
-    let bitmap = unsafe { BITMAP.get_mut().unwrap() };
-
-    bitmap[byte as usize] &= !(1 << bit);
+    unsafe { BITMAP[byte as usize] &= !(1 << bit) };
 }

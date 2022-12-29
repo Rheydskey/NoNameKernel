@@ -1,4 +1,4 @@
-use crate::drivers::vga::vga_color::{Color, ColorCode};
+use super::vga_color::{Color, ColorCode};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(C)]
@@ -13,7 +13,7 @@ const BUFFER_WIDTH: usize = 80;
 #[derive(Clone, Copy)]
 #[repr(transparent)]
 pub struct Buffer {
-    pub chars: [[ScreenChar;  BUFFER_WIDTH];  BUFFER_HEIGHT ],
+    pub chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
 pub struct Writer {
@@ -32,7 +32,6 @@ impl Writer {
             buffer: unsafe { &mut *(addr as *mut Buffer) },
         }
     }
-
 
     pub fn write_byte(&mut self, byte: u8) {
         match byte {
@@ -69,6 +68,7 @@ impl Writer {
         self.row_position = cursor_ver;
         self.write_string(msg);
     }
+
     pub fn new_line(&mut self) {
         if self.row_position + 1 == BUFFER_HEIGHT {
             self.row_position = 0;

@@ -24,7 +24,7 @@ impl<'a> Init<'a> {
         }
     }
     pub fn pending(&mut self) {
-        if let Status::Pending = self.status {
+        if matches!(self.status, Status::Pending) {
             return;
         }
 
@@ -32,14 +32,14 @@ impl<'a> Init<'a> {
         println!("[ .. ] {}", &self.initname);
     }
     pub fn ok(&mut self) {
-        if let Status::Ok = self.status {
+        if matches!(self.status, Status::Ok) {
             return;
         }
 
         println!("[ OK ] {}", &self.initname);
     }
     pub fn error(&mut self) {
-        if let Status::Error = self.status {
+        if matches!(self.status, Status::Error) {
             return;
         };
 

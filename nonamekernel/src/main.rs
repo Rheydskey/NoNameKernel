@@ -16,7 +16,7 @@ mod kernel;
 mod panic_handler;
 
 use kernel::kmain;
-use stivale_boot::v2::{StivaleFramebufferHeaderTag, StivaleHeader};
+use stivale_boot::v2::{StivaleFramebufferHeaderTag, StivaleHeader, StivaleStruct};
 
 const STACK_SIZE: usize = 4096;
 
@@ -33,7 +33,6 @@ static STIVALEHDR: StivaleHeader = StivaleHeader::new()
     .tags((&FRAMEBUFFER_TAG as *const StivaleFramebufferHeaderTag).cast());
 
 #[no_mangle]
-pub extern "C" fn _start(_: usize) -> ! {
-    kmain();
-    loop {}
+pub extern "C" fn _start(boot_info: &'static StivaleStruct) -> ! {
+    kmain(boot_info);
 }

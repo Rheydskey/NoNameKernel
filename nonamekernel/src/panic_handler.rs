@@ -7,12 +7,11 @@ fn panic(_info: &PanicInfo<'_>) -> ! {
         |args| args.as_str().unwrap_or("No Message Error"),
     );
 
-    let location = match _info.location() {
-        Some(e) => e,
-        None => {
-            print!("No location on panic");
-            loop {}
-        }
+    let location = if let Some(location) = _info.location() {
+        location
+    } else {
+        print!("No location on panic");
+        loop {}
     };
 
     println!(

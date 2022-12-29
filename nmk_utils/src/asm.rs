@@ -49,3 +49,21 @@ pub fn inl(port: u16) -> u32 {
 pub fn wait() {
     outb(0x80, 0);
 }
+
+pub fn read_cr3() -> u64 {
+    let value: u64;
+    unsafe {
+        asm!("mov {}, cr3", out(reg) value);
+    }
+
+    value
+}
+
+pub fn read_ebp() -> u64 {
+    let value: u64;
+    unsafe {
+        asm!("mov {}, rbp", out(reg) value);
+    }
+
+    value
+}

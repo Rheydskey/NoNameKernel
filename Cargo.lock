@@ -29,6 +29,7 @@ dependencies = [
  "nasm-rs",
  "nmk_drivers",
  "nmk_utils",
+ "rustc-demangle",
 ]
 
 [[package]]
@@ -58,14 +59,21 @@ dependencies = [
  "nmk_archs",
  "nmk_drivers",
  "nmk_status",
+ "rustc-demangle",
  "stivale-boot",
 ]
 
 [[package]]
-name = "stivale-boot"
-version = "0.2.6"
+name = "rustc-demangle"
+version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3984cf9eb06b3115126ca13dffce8e45bc0f9a444391467c814b086acf50836d"
+checksum = "7ef03e0a2b150c7a90d01faf6254c9c48a41e95fb2a8c2ac1c6f0d2b9aefc342"
+
+[[package]]
+name = "stivale-boot"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "abe78be933167bda8c05b88e35823c29452fbb51aa632a82e376a75726cf25a8"
 dependencies = [
  "bitflags",
 ]

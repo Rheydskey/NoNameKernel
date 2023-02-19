@@ -42,15 +42,15 @@ const PORT: u16 = Com::COM1 as u16;
 pub fn init_serial<'a>() -> Result<u8, &'a str> {
     let com = Com::COM1 as u16;
 
-    outb((com + 1), 0x00);
-    outb((com + 3), 0x80);
-    outb((com), 0x3);
-    outb((com + 1), 0);
-    outb((com + 3), 0x03);
-    outb((com + 2), 0xC7);
-    outb((com + 4), 0x0B);
-    outb((com + 4), 0x1E);
-    outb((com), 0xAE);
+    outb(com + 1, 0x00);
+    outb(com + 3, 0x80);
+    outb(com, 0x3);
+    outb(com + 1, 0);
+    outb(com + 3, 0x03);
+    outb(com + 2, 0xC7);
+    outb(com + 4, 0x0B);
+    outb(com + 4, 0x1E);
+    outb(com, 0xAE);
 
     if inb(com) != 0xAE {
         return Err("Serial is faulty");

@@ -7,3 +7,6 @@
 extern crate nmk_drivers;
 
 pub mod x86_64;
+
+#[cfg(test)]
+mod tests;

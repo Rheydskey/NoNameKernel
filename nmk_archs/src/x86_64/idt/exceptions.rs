@@ -54,7 +54,7 @@ expection_interrupt!(security, "security");
 
 pub extern "x86-interrupt" fn page_fault(interrupt: InterruptStackFrame) {
     println!(
-        "IntPointer : {:#X}, SegPointer: {:#X},StackSeg:{} CodeSeg:{}, Flags: {}",
+        "IntPointer : {:#X}, SegPointer: {:#X}, StackSeg:{:#X} CodeSeg:{:#X}, Flags: {:#X}",
         interrupt.instruction_pointer,
         interrupt.stack_pointer,
         interrupt.stack_segment,

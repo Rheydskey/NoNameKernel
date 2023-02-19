@@ -12,7 +12,6 @@ impl StackTrace {
 
         let mut stack: &StackTrace = &*(ptr_stack as *mut usize).cast::<StackTrace>();
 
-        println!("{:?}", rustc_demangle::try_demangle("_ZN4testE"));
         let mut n = 0;
         while let Some(trace) = stack.get_next() {
             println!("{:x}", trace.rip);

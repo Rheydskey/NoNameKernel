@@ -1,0 +1,4 @@
+struct PageDirectory;
+
+struct PageTable;
+

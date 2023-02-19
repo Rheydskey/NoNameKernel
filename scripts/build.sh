@@ -1,4 +1,4 @@
 #!/usr/bin/bash
-cargo build
-./scripts/make_limine_disk.sh
+KERNEL=$1
+./scripts/make_limine_disk.sh $KERNEL
 qemu-system-x86_64 -serial stdio -drive format=raw,file=linux_hdd.hdd

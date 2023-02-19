@@ -4,7 +4,6 @@ pub mod exceptions;
 pub mod irq;
 pub mod pit;
 
-use bitflags::bitflags;
 use core::{arch::asm, mem::size_of, usize};
 use nmk_utils::asm::outb;
 
@@ -31,17 +30,16 @@ impl IDTPtr {
     }
 }
 
-bitflags! {
-    pub struct IDTFlags: u8 {
-        const PRESENT = 1 << 7;
-        const RING_0 = 0 << 5;
-        const RING_1 = 1 << 5;
-        const RING_2 = 2 << 5;
-        const RING_3 = 3 << 5;
-        const SS = 1 << 4;
-        const INTERRUPT = 0xE;
-        const TRAP = 0xF;
-    }
+#[repr(u8)]
+pub enum IdtFlags {
+    Present = 1 << 7,
+    Ring0 = 0 << 5,
+    Ring1 = 1 << 5,
+    Ring2 = 2 << 5,
+    Ring3 = 3 << 5,
+    Ss = 1 << 4,
+    Interrupt = 0xE,
+    Trap = 0xF,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -80,8 +78,8 @@ impl IDTEntry {
             zero: 0,
         }
     }
-    fn set_flags(&mut self, flags: IDTFlags) {
-        self.type_attr = flags.bits;
+    fn set_flags(&mut self, flags: u8) {
+        self.type_attr = flags;
     }
 
     fn set_offset(&mut self, selector: u16, base: usize) {
@@ -92,7 +90,7 @@ impl IDTEntry {
     }
 
     pub fn set_function(&mut self, handler: HandlerInterrupt) {
-        self.set_flags(IDTFlags::PRESENT | IDTFlags::RING_0 | IDTFlags::INTERRUPT);
+        self.set_flags(IdtFlags::Present as u8 | IdtFlags::Ring0 as u8 | IdtFlags::Interrupt as u8);
         self.set_offset(8, handler as usize);
     }
 }
@@ -135,8 +133,7 @@ pub fn init_idt<'a>() -> Result<(), &'a str> {
         IDT[11].set_function(exceptions::segment_not_present);
         IDT[12].set_function(exceptions::stack_segment);
         IDT[13].set_function(exceptions::protection);
-        IDT[14].set_flags(IDTFlags::PRESENT | IDTFlags::RING_0 | IDTFlags::INTERRUPT);
-        IDT[14].set_offset(8, exceptions::page_fault as usize);
+        IDT[14].set_function(exceptions::page_fault);
         IDT[16].set_function(exceptions::fpu_fault);
         IDT[17].set_function(exceptions::alignment_check);
         IDT[18].set_function(exceptions::machine_check);

@@ -36,7 +36,7 @@ impl Pci {
         let func = self.func() as u32;
 
         let address =
-            ((bus << 16) | (slot << 11) | (func << 8) | (offset & 0xfc) as u32 | (0x80000000));
+            (bus << 16) | (slot << 11) | (func << 8) | (offset & 0xfc) as u32 | (0x80000000);
 
         asm::outl(PCI_ADDRESS, address);
 
@@ -72,7 +72,7 @@ pub fn pci_config_read_word(bus: u8, slot: u8, func: u8, offset: u8) -> u16 {
     let lfunc = func as u32;
 
     let address =
-        ((lbus << 16) | (lslot << 11) | (lfunc << 8) | (offset & 0xfc) as u32 | (0x80000000));
+        (lbus << 16) | (lslot << 11) | (lfunc << 8) | (offset & 0xfc) as u32 | (0x80000000);
 
     asm::outl(PCI_ADDRESS, address);
 

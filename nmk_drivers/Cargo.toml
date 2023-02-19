@@ -7,4 +7,3 @@ edition = "2021"
 
 [dependencies]
 nmk_utils = { path = "../nmk_utils" }
-bit_field = "0.10.1"

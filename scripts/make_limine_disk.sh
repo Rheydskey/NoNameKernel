@@ -1,13 +1,21 @@
 KERNEL_HDD="linux_hdd.hdd"
-PATH_ELF="build/target/debug/nonamekernel"
+PATH_ELF=$1
 
-echo "${KERNEL_HDD}"
-rm -f ${KERNEL_HDD}
-dd if=/dev/zero bs=1M count=0 seek=64 of=${KERNEL_HDD}
-parted -s ${KERNEL_HDD} mklabel gpt
-parted -s ${KERNEL_HDD} mkpart primary 2048s 100%
-echfs-utils -g -p0 ${KERNEL_HDD} quick-format 512
-echfs-utils -g -p0 ${KERNEL_HDD} import ${PATH_ELF} stivale.elf
-echfs-utils -g -p0 ${KERNEL_HDD} import submodules/limine.cfg limine.cfg
-echfs-utils -g -p0 ${KERNEL_HDD} import submodules/limine/limine.sys limine.sys
-./submodules/limine/limine-install-linux-x86_64 ${KERNEL_HDD}
+echo $PATH_ELF
+
+rm -rvf iso_root
+mkdir -p iso_root
+
+# Copy the relevant files over.
+cp -v $PATH_ELF submodules/limine.cfg limine/limine.sys \
+limine/limine-cd.bin limine/limine-cd-efi.bin iso_root/
+
+# Create the bootable ISO.
+xorriso -as mkisofs -b limine-cd.bin \
+-no-emul-boot -boot-load-size 4 -boot-info-table \
+--efi-boot limine-cd-efi.bin \
+-efi-boot-part --efi-boot-image --protective-msdos-label \
+iso_root -o ${KERNEL_HDD}
+
+# Install Limine stage 1 and 2 for legacy BIOS boot.
+./limine/limine-deploy ${KERNEL_HDD}

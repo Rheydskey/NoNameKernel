@@ -25,7 +25,7 @@ fn translate(scancode: u8) -> Keyboard {
         0x39 => Keyboard::Space,
         0x1D => Keyboard::Ctrl,
         _ => {
-            if scancode >= KEYBOARDMAP.len() as u8 {
+            if scancode >= u8::try_from(KEYBOARDMAP.len()).unwrap() {
                 Keyboard::Other
             } else {
                 Keyboard::Key(KEYBOARDMAP[scancode as usize])

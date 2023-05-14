@@ -1,6 +1,7 @@
 use core::arch::asm;
 
 #[inline]
+#[must_use]
 pub fn inb(port: u16) -> u8 {
     let value: u8;
     unsafe {
@@ -32,6 +33,7 @@ pub fn outl(port: u16, value: u32) {
 }
 
 #[inline]
+#[must_use]
 pub fn inl(port: u16) -> u32 {
     let ret: u32;
     unsafe {
@@ -50,6 +52,7 @@ pub fn wait() {
     outb(0x80, 0);
 }
 
+#[must_use]
 pub fn read_cr3() -> u64 {
     let value: u64;
     unsafe {
@@ -59,6 +62,7 @@ pub fn read_cr3() -> u64 {
     value
 }
 
+#[must_use]
 pub fn read_ebp() -> u64 {
     let value: u64;
     unsafe {

@@ -7,7 +7,7 @@ rm -rvf iso_root
 mkdir -p iso_root
 
 # Copy the relevant files over.
-cp -v $PATH_ELF submodules/limine.cfg limine/limine.sys \
+cp -v $PATH_ELF bin/limine.cfg limine/limine.sys \
 limine/limine-cd.bin limine/limine-cd-efi.bin iso_root/
 
 # Create the bootable ISO.

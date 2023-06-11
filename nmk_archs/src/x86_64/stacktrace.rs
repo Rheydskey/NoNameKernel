@@ -9,7 +9,7 @@ pub struct StackTrace {
 impl StackTrace {
     pub unsafe fn get() {
         let ptr_stack: u64 = read_ebp();
-
+        println!("{:#X}", ptr_stack);
         let mut stack: &StackTrace = &*(ptr_stack as *mut usize).cast::<StackTrace>();
 
         let mut n = 0;

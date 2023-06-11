@@ -2,7 +2,6 @@
 #![no_main]
 #![feature(panic_info_message)]
 #![feature(const_mut_refs)]
-#![feature(once_cell)]
 #![feature(fn_traits)]
 #![feature(abi_x86_interrupt)]
 #![feature(const_option)]
